@@ -142,3 +142,36 @@ Model notebooks should load one of these files and split on `is_train`.
 
 ## 8. Open questions
 1. **Shared prep:** Faizal and David own EDA/cleaning (R2). These notes should be shared with them so the data-prep notebook uses the same loading steps (§3.1–3.2).
+
+## 9. Decision tree results (`notebooks/decisionTree.ipynb`)
+Protocol: official split, stratified 5-fold CV on the training set for all tuning, and a single evaluation on the test set. `random_state = 42`.
+
+| Metric | Value |
+|---|---|
+| Chance accuracy | 0.5% |
+| CV accuracy (best config) | 24.7% ± 0.5% |
+| Test accuracy | 24.7% |
+| Test macro-F1 | 0.245 |
+| Train accuracy | 99.9% |
+| Tree size | depth 46, 3,429 leaves |
+
+- **Tuning didn't help.** The grid search covered 480 combinations of criterion, max_depth, min_samples_leaf, min_samples_split and ccp_alpha. The best one is effectively the unpruned default tree. Every kind of regularisation lowers CV accuracy: with 200 classes and about 30 images each, leaves have to be tiny to tell species apart.
+- **Very high variance** (99.9% train vs 24.7% CV). This is the main motivation for the Random Forest.
+- **Feature variants:** A 0.247, C 0.243, B 0.243 (CV). The differences are within fold noise, so we keep A (simplest) and should re-test B/C with the Random Forest.
+- **Errors are between near-identical species:** crows, waterthrushes, hummingbirds, Blue Grosbeak vs Indigo Bunting. Colour attributes dominate the feature importances. The root split is `has_throat_color::yellow`.
+
+## 10. Random forest results (`notebooks/randomForest.ipynb`)
+Same protocol and CV folds as the decision tree. One-at-a-time validation curves use the out-of-bag (OOB) score.
+
+| Metric | Decision tree | Random forest |
+|---|---|---|
+| CV accuracy (5-fold, train) | 24.7% | 44.5% |
+| Test accuracy | 24.7% | **45.6%** |
+| Test macro-F1 | 0.245 | **0.435** |
+| Test top-5 accuracy | 26.4% | **72.1%** |
+
+- **Selected configuration:** variant C, gini, `max_features='sqrt'`, `min_samples_leaf=2`, `max_depth=30`, 750 trees (where the OOB curve plateaus).
+- **The forest is significantly better:** McNemar's exact test gives p ≈ 1e-221, and 183 of the 200 species improve.
+- **Gini beats entropy** by about 6 points. The top grid configurations are within about 0.5 points of each other, so the forest is robust to tuning.
+- **"Not visible" encoding:** C ≈ A (0.445 vs 0.444, well within the fold std of about 1.5 points) > B (0.435). There is no measurable benefit from encoding visibility, which is consistent with the decision tree results.
+- **Most important attribute groups (group permutation on test):** throat colour, bill shape, bill length, forehead, crown and bill colour. Tail and wing shape and pattern contribute about nothing.
