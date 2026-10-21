@@ -134,11 +134,13 @@ Implemented in `notebooks/dataPrep.ipynb`. It loads and validates the data, pivo
 
 | File | Contents |
 |---|---|
-| `data/cub_features_A.csv` | `image_id`, 312 attribute columns (0/1), `class_id`, `class_name`, `is_train` |
+| `data/cub_features_A.csv` | `image_id`, 312 attribute columns (0/1), `class_id`, `class_name`, `is_train`, `is_train_80` |
 | `data/cub_features_B.csv` | same, with not-visible encoded as −1 |
 | `data/cub_features_C.csv` | variant A + 28 `notvis::<group>` flags |
 
-Model notebooks should load one of these files and split on `is_train`.
+Every file also has an `is_train_80` column, a stratified 80/20 split (seed 42): 9,430 train with 33–48 per species, and 2,358 test with 8–12 per species. Model notebooks load one of these files and split on **either** `is_train` (official) or `is_train_80`, never using a split column as a feature. Validation for both splits is stratified 5-fold CV inside the training portion, with no fixed validation set.
+
+**Why 80/20 was added (21 Oct 2026):** a scratch run of the tuned forest gave about 48.1% (±0.9 over 5 seeds) on 80/20 splits, against 45.6% on the official split. Capping 80/20 training at 30 images per species gave back about 45.7%, so the gain comes from extra training data, not an easier test set. The trade-offs are a noisier test score (about ±1.0 points), uneven training classes (33–48), and no comparability with published official-split results. All models being compared must use the same split, which is a team decision.
 
 ## 8. Open questions
 1. **Shared prep:** Faizal and David own EDA/cleaning (R2). These notes should be shared with them so the data-prep notebook uses the same loading steps (§3.1–3.2).
@@ -175,3 +177,40 @@ Same protocol and CV folds as the decision tree. One-at-a-time validation curves
 - **Gini beats entropy** by about 6 points. The top grid configurations are within about 0.5 points of each other, so the forest is robust to tuning.
 - **"Not visible" encoding:** C ≈ A (0.445 vs 0.444, well within the fold std of about 1.5 points) > B (0.435). There is no measurable benefit from encoding visibility, which is consistent with the decision tree results.
 - **Most important attribute groups (group permutation on test):** throat colour, bill shape, bill length, forehead, crown and bill colour. Tail and wing shape and pattern contribute about nothing.
+
+## 11. Decision tree on the 80/20 split (`notebooks/decisionTree_80_20.ipynb`)
+This uses the same protocol, re-tuned from scratch on `is_train_80`, with `class_weight` added to the grid because the training classes are uneven (33–48 per species).
+
+| | Official split | 80/20, train capped at 30/species | 80/20 split |
+|---|---|---|---|
+| CV accuracy | 24.7% | — | 27.2% |
+| Test accuracy | 24.7% | 25.5% ± 0.6 | **27.4%** |
+| Test macro-F1 | 0.245 | — | 0.274 |
+| Test top-5 accuracy | 26.4% | — | 38.6% |
+
+- **80/20 gives +2.7 points.** About 1.9 of those come from the extra training images. The other 0.8 points come from the different test set, as the capped row shows.
+- **Tuning still doesn't help.** The selected tree (variant B, `min_samples_leaf=2`, `min_samples_split=10`, balanced weights) matches the default tree on both CV and test. It is much smaller, though (1,776 vs 5,223 leaves; 61% train accuracy), and its impure leaves make top-5 accuracy meaningful.
+- **Balanced class weights and the A/B/C variants make no measurable difference** (all within about 0.1–0.4 points of each other, against a fold std of about 1 point).
+
+## 12. Random forest on the 80/20 split (`notebooks/randomForest_80_20.ipynb`)
+This uses the same protocol, re-tuned from scratch on `is_train_80`, with `class_weight` added to the grid. It is compared against the 80/20-tuned decision tree.
+
+| | Official split | 80/20, train capped at 30/species | 80/20 split |
+|---|---|---|---|
+| CV accuracy | 44.5% | — | 47.5% |
+| Test accuracy | 45.6% | 46.5% ± 0.6 | **49.3%** |
+| Test macro-F1 | 0.435 | — | 0.471 |
+| Test top-5 accuracy | 72.1% | — | 74.9% |
+
+- **80/20 gives +3.7 points.** About 2.8 of those come from the extra training images and about 0.9 from the different test set. The forest gains more from extra data than the single tree did (+1.9).
+- **The forest beats the 80/20 tree** by 21.9 points (49.3% vs 27.4%; McNemar p ≈ 4e-92).
+- **Selected configuration:** variant C, gini, `max_features='sqrt'`, `min_samples_leaf=1`, `max_depth=30`, `class_weight='balanced_subsample'`, 1,000 trees. Balanced weighting leads by only about 0.25 points (within noise).
+- **Variant B (−1 encoding) is clearly worse for the forest** on both splits (about 1–2 points below A and C, beyond the fold std). A and C are tied.
+
+### Split summary (all models)
+| Model | Official split | 80/20 split | Gain from more data* |
+|---|---|---|---|
+| Decision tree | 24.7% | 27.4% | +1.9 |
+| Random forest | 45.6% | 49.3% | +2.8 |
+
+\*The gain from more data is the full 80/20 result minus the "train capped at 30 per species" result, both on the same 80/20 test set.
