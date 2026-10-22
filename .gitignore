@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------
+# Data is NOT stored in git (the CUB dataset is ~1.1 GB, far above GitHub limits).
+# Everyone recreates it with the pipeline instead:
+#     python scripts/download_data.py
+#     python scripts/prepare_data.py
+# ---------------------------------------------------------------------------
+data/raw/
+data/processed/
+!data/.gitkeep
+
+# Python / Jupyter clutter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------
+# Single environment file for the whole project (CW Handbook 4.2.5):
+#   - one file, stored in the repository root
+#   - every package listed once, with an explicit version
+#
+# Create the environment (run in the repo root, in Anaconda Prompt / PowerShell):
+#     conda env create -f environment.yml
+#     conda activate f20dl-birds
+#
+# If a teammate adds a package later (e.g. tensorflow for R4), add it HERE with a
+# pinned version, then everyone runs:
+#     conda env update -f environment.yml --prune
+# ---------------------------------------------------------------------------
+name: f20dl-birds
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11          # coursework brief recommends Python >= 3.11
+  - numpy=1.26.4
+  - pandas=2.2.2
+  - scikit-learn=1.5.1
+  - scipy=1.13.1         # statistics (chi-squared test for Cramér's V)
+  - matplotlib=3.9.2
+  - seaborn=0.13.2
+  - pillow=10.4.0        # reading image files (sizes, colour mode)
+  - jupyterlab=4.2.5
+  - ipykernel=6.29.5
