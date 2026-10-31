@@ -1,0 +1,2 @@
+model,data_source,best_params,cv_macro_f1,test_accuracy,test_macro_f1,test_top5_accuracy,predict_time_s
+KNN,raw,"{'metric': 'manhattan', 'n_neighbors': 7, 'weights': 'distance'}",0.3015,0.3302,0.3298,0.5613,6.22
