@@ -1,2 +1,0 @@
-model,data_source,variant,best_params,cv_macro_f1,test_accuracy,test_macro_f1,test_top5_accuracy,predict_time_s
-KNN (improved),raw,F. Certainty-weighted + LDA,"{'knn__metric': 'cosine', 'knn__n_neighbors': 7, 'lda__n_components': 64}",0.411,0.4417,0.4219,0.6671,0.52
