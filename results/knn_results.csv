@@ -1,0 +1,12 @@
+,KNN
+chance,0.005
+baseline test accuracy,0.30203658957542284
+setup,7. Certainty-weighted + LDA + KNN
+input_data,certainty
+params,"{'knn__metric': 'cosine', 'knn__n_neighbors': 7, 'knn__weights': 'distance', 'lda__n_components': 64}"
+train_accuracy,0.9996663329996663
+cv_accuracy,0.4377739657839519
+test_accuracy,0.44166379012771834
+test_f1_macro,0.4219121423124152
+test_top5_accuracy,0.6670693821194339
+predict_time_s,1.1044142246246338

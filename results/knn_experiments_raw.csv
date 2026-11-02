@@ -1,7 +1,0 @@
-experiment,cv_macro_f1,best_params
-F. Certainty-weighted + LDA,0.411,"{'knn__metric': 'cosine', 'knn__n_neighbors': 7, 'lda__n_components': 64}"
-E. LDA + KNN,0.3995,"{'knn__metric': 'cosine', 'knn__n_neighbors': 7, 'lda__n_components': 64}"
-B. Jaccard distance,0.334,"{'n_neighbors': 15, 'weights': 'distance'}"
-D. Chi-squared feature selection,0.3119,"{'knn__n_neighbors': 15, 'select__k': 200}"
-"A. Baseline (binary, Manhattan)",0.3015,"{'metric': 'manhattan', 'n_neighbors': 7, 'weights': 'distance'}"
-C. Certainty-weighted,0.3004,"{'metric': 'cosine', 'n_neighbors': 7, 'weights': 'distance'}"
