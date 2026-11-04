@@ -1,0 +1,9 @@
+{
+ "params": {
+  "metric": "cosine",
+  "n_neighbors": 21,
+  "weights": "distance"
+ },
+ "cv_accuracy": 0.352680856983862,
+ "test_accuracy": 0.3470831895063859
+}
