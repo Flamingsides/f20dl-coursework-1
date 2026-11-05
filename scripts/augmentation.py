@@ -18,12 +18,12 @@ Bird-specific choices (justify these in the report):
   - Vertical flip:   NO  (birds are almost never upside down; it creates
                           unrealistic images).
   - Hue jitter:      VERY SMALL or off. Colour is the main cue for many species
-                     (notebook 02: Blue Grosbeak vs Indigo Bunting, Yellow vs
+                     (eda.ipynb: Blue Grosbeak vs Indigo Bunting, Yellow vs
                      Wilson Warbler), so shifting hue can turn one species into
                      another. Brightness/contrast/saturation are safe.
   - Rotation:        small (+-15 degrees), like a tilted camera.
 
-Needs (add to environment.yml): pytorch, torchvision (>= 0.16 for MixUp/CutMix).
+Needs (add to the dependency file): torch, torchvision (>= 0.16 for MixUp/CutMix).
 """
 from pathlib import Path
 

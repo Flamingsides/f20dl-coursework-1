@@ -1,8 +1,8 @@
 """
-prepare_images.py — Step 3 of the data pipeline (R2, image side).
+prepare_images.py — Step 2 of the image pipeline (R2, for R4).
 
-Turns Dataset 2 (cub_images.csv, made by prepare_data.py) into model-ready
-image files, applying Decision 8 of notebooks/01_data_cleaning.ipynb:
+Turns Dataset 2 (data/cub_images.csv, made by notebooks/imagePrep.ipynb) into
+model-ready image files, applying the findings of that notebook:
   (a) convert the 8 greyscale images to RGB,
   (b) crop to the (already clipped) bounding box, plus a small margin,
   (c) resize so the SHORTER side is TARGET_SHORT px (aspect ratio kept).
@@ -14,7 +14,7 @@ training split only, in scripts/augmentation.py.
 Output: data/processed/images_cropped/<same sub-folders as the raw images>
         data/processed/cub_images_cropped.csv  (cub_images.csv + cropped_path)
 
-Usage (repo root, conda env active):
+Usage (repo root, environment active, after running notebooks/imagePrep.ipynb):
     python scripts/prepare_images.py
 """
 from pathlib import Path
@@ -23,7 +23,10 @@ import pandas as pd
 from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RAW_IMAGES = REPO_ROOT / "data" / "raw" / "CUB_200_2011" / "images"
+# Dataset folder, found the same way as in notebooks/dataPrep.ipynb: inside data/raw/, or CUB_200_2011/ at the repo root
+CUB = next((p.parent for p in (REPO_ROOT / "data" / "raw").rglob("image_class_labels.txt")), REPO_ROOT / "CUB_200_2011")
+RAW_IMAGES = CUB / "images"
+IMAGE_TABLE = REPO_ROOT / "data" / "cub_images.csv"   # written by notebooks/imagePrep.ipynb
 PROCESSED = REPO_ROOT / "data" / "processed"
 OUT_DIR = PROCESSED / "images_cropped"
 
@@ -56,7 +59,7 @@ def process_one(row):
 
 
 if __name__ == "__main__":
-    table = pd.read_csv(PROCESSED / "cub_images.csv")
+    table = pd.read_csv(IMAGE_TABLE)
     paths = []
     for i, row in enumerate(table.itertuples(index=False), start=1):
         paths.append(process_one(row))
