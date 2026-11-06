@@ -1,8 +1,0 @@
-,cv_accuracy,cv_acc_std,cv_f1_macro,best_params,input
-7. Certainty-weighted + LDA + KNN,0.4377739657839519,0.01611788458758563,0.4110453386642671,"{'knn__metric': 'cosine', 'knn__n_neighbors': 7, 'knn__weights': 'distance', 'lda__n_components': 64}",certainty
-6. LDA + KNN,0.425762704312581,0.019353295666299616,0.39708619955970204,"{'knn__metric': 'cosine', 'knn__n_neighbors': 11, 'knn__weights': 'distance', 'lda__n_components': 64}",A
-5. PCA + KNN,0.3546888684365519,0.005418961939213744,0.33770635921131437,"{'knn__metric': 'cosine', 'knn__n_neighbors': 15, 'knn__weights': 'distance', 'pca__n_components': 200}",A
-4. Chi-squared selection + KNN,0.3536885913553448,0.008843011879019848,0.33986030479083223,"{'knn__metric': 'cosine', 'knn__n_neighbors': 15, 'knn__weights': 'distance', 'select__k': 250}",A
-2. Jaccard distance,0.3463464963150984,0.0064328630005281405,0.33398556894643033,"{'n_neighbors': 15, 'weights': 'distance'}",A
-1. Plain KNN (grid search),0.34517927432571105,0.0054885815712816845,0.3319165486491894,"{'metric': 'cosine', 'n_neighbors': 15, 'weights': 'distance'}",A
-3. Certainty-weighted features,0.31314562357891457,0.0068302118388368135,0.3004182819399367,"{'metric': 'cosine', 'n_neighbors': 7, 'weights': 'distance'}",certainty
