@@ -1,0 +1,47 @@
+{
+  "run": "resnet50_pretrained_448px_final",
+  "config": {
+    "profile": "full",
+    "pretrained": true,
+    "weights": "IMAGENET1K_V1",
+    "img_size": 448,
+    "store_px": 512,
+    "batch_size": 32,
+    "epochs": 25,
+    "warmup_epochs": 1,
+    "head_lr_mult": 10,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "smoke_test": false,
+    "lr_backbone": 0.003,
+    "final_retrain": true
+  },
+  "selection": [
+    {
+      "backbone lr": 0.001,
+      "run": "resnet50_pretrained_448px_lr0.001",
+      "best epoch": 24,
+      "val accuracy": 0.7714762301918265,
+      "val macro-F1": 0.769434831508361,
+      "val top-5": 0.9457881567973311,
+      "minutes": 19.5
+    },
+    {
+      "backbone lr": 0.003,
+      "run": "resnet50_pretrained_448px_lr0.003",
+      "best epoch": 23,
+      "val accuracy": 0.7889908256880734,
+      "val macro-F1": 0.7870830884801472,
+      "val top-5": 0.9424520433694745,
+      "minutes": 19.2
+    }
+  ],
+  "final_epoch": 25,
+  "test": {
+    "accuracy": 0.8187780462547463,
+    "macro_f1": 0.8178611647096298,
+    "top5_accuracy": 0.9496030376251294
+  },
+  "test_photos": 5794,
+  "train_minutes_total": 60.1
+}

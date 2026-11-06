@@ -130,7 +130,7 @@ import pandas as pd
 from pathlib import Path
 
 ROOT = Path.cwd() if (Path.cwd() / 'data').exists() else Path.cwd().parent
-META_COLS = ['image_id', 'class_id', 'class_name', 'is_train', 'is_train_80']   # never use as features
+META_COLS = ['image_id', 'class_id', 'class_name', 'is_train']   # never use as features
 
 df = pd.read_csv(ROOT / 'data' / 'cub_features_A.csv')
 features = [c for c in df.columns if c not in META_COLS]
@@ -155,7 +155,7 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 
 | Date | Change | By |
 |---|---|---|
-| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C, 80/20 split | Ryan |
+| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C | Ryan |
 | 2026-10-22 | `scripts/download_data.py` (Kaggle download into `data/raw/`) | Tengku |
 | 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml` | Suhaib |
 | 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb` | David |
