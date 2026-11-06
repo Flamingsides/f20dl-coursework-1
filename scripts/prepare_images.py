@@ -16,7 +16,10 @@ Output: data/processed/images_cropped/<same sub-folders as the raw images>
 
 Usage (repo root, environment active, after running notebooks/imagePrep.ipynb):
     python scripts/prepare_images.py
+    python scripts/prepare_images.py --short-side 512   # larger copy for 448 px models (resnet50.ipynb)
+        -> data/processed/images_cropped_512/ and data/processed/cub_images_cropped_512.csv
 """
+import argparse
 from pathlib import Path
 
 import pandas as pd
@@ -45,27 +48,39 @@ def crop_box(row, margin=MARGIN):
     return tuple(int(round(v)) for v in (left, top, right, bottom))
 
 
-def process_one(row):
+def output_paths(short_side):
+    """Image folder and table for a stored size. 256 px keeps the original names used by the other notebooks."""
+    suffix = "" if short_side == TARGET_SHORT else f"_{short_side}"
+    return PROCESSED / f"images_cropped{suffix}", PROCESSED / f"cub_images_cropped{suffix}.csv"
+
+
+def process_one(row, out_dir=OUT_DIR, target_short=TARGET_SHORT):
     with Image.open(RAW_IMAGES / row.image_path) as img:
         img = img.convert("RGB")                       # (a) greyscale -> 3 channels
         img = img.crop(crop_box(row))                  # (b) crop to the bird
-        scale = TARGET_SHORT / min(img.size)           # (c) shorter side -> TARGET_SHORT
+        scale = target_short / min(img.size)           # (c) shorter side -> target_short
         new_size = (max(1, round(img.width * scale)), max(1, round(img.height * scale)))
         img = img.resize(new_size, Image.BICUBIC)
-        out = OUT_DIR / row.image_path
+        out = out_dir / row.image_path
         out.parent.mkdir(parents=True, exist_ok=True)
         img.save(out, quality=95)
     return out.relative_to(PROCESSED).as_posix()
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--short-side", type=int, default=TARGET_SHORT,
+                        help=f"stored size of the shorter side in px (default {TARGET_SHORT})")
+    short_side = parser.parse_args().short_side
+    out_dir, out_table = output_paths(short_side)
+
     table = pd.read_csv(IMAGE_TABLE)
     paths = []
     for i, row in enumerate(table.itertuples(index=False), start=1):
-        paths.append(process_one(row))
+        paths.append(process_one(row, out_dir, short_side))
         if i % 1000 == 0 or i == len(table):
-            print(f"\r  cropping images... {i:,}/{len(table):,}", end="")
+            print(f"\r  cropping images... {i:,}/{len(table):,}", end="", flush=True)
     print()
     table["cropped_path"] = paths
-    table.to_csv(PROCESSED / "cub_images_cropped.csv", index=False)
-    print(f"Done: {len(table):,} images written to {OUT_DIR}")
+    table.to_csv(out_table, index=False)
+    print(f"Done: {len(table):,} images written to {out_dir}")
