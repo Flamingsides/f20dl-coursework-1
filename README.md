@@ -246,10 +246,3 @@ Current results on the official test set, as reported in [`tabularDataAnalysis.m
 
 _TODO (R4 owners): what is predicted, inputs, results table, figure, links._ Load the photos with `make_loaders()`
 (see "Loading the prepared data" above).
-
----
-
-## Use of generative AI
-
-Notebooks and scripts written with GenAI help have a disclosure cell at the top that names the tool, the person who
-reviewed the work, and the prompts used (coursework specification, Section 8).
