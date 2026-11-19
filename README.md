@@ -10,22 +10,20 @@
 
 | Name | Role | Requirement work |
 |---|---|---|
-| Suhaib Hameed Zuberi | Team Lead | R3: logistic regression |
-| Tengku Adam Syafiq | Presentation and Pitch Lead | R3: k-NN; data download script |
-| Ryan Goh | Data Management Lead | R2: tabular data preparation; R3: decision tree, random forest |
-| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks |
-| David Ling | Final Report Lead | R2: image pipeline for R4 (crop, resize, augmentation); meeting logs |
+| Suhaib Hameed Zuberi | Team Lead | R3: logistic regression; R4: MLP |
+| Tengku Adam Syafiq | Presentation and Pitch Lead | R3: k-NN, k-NN improvements; R4: ViT-B/16 notebook; data download script |
+| Ryan Goh | Data Management Lead | R2: tabular data preparation; R3: decision tree, random forest, random forest optimisation; R4: ResNet-50, training runs |
+| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks; repository and README |
+| David Ling | Final Report Lead | R2: image pipeline for R4 (crop, resize, augmentation); R4: base CNN; meeting logs |
 
 ## Project milestones
-
-_TODO (team lead): confirm the dates._
 
 | Milestone | Target |
 |---|---|
 | D1 Project pitch | Week 4 (done) |
-| R2 Data analysis and exploration | _TODO_ |
-| R3 Baseline models | _TODO_ |
-| R4 Neural networks | _TODO_ |
+| R2 Data analysis and exploration | done, 7 Nov 2026 |
+| R3 Baseline models | done, 16 Nov 2026 |
+| R4 Neural networks | done, 17 Nov 2026 |
 | D2 Report + code | Week 11: Wed 25 Nov 2026, 15:30 |
 | D3 Mini-viva | Week 12: Mon 30 Nov 2026 |
 
@@ -75,18 +73,18 @@ None. No data was added to the original dataset.
 
 ### 1. Environment
 
-_TODO (group decision, 5 Nov): keep ONE dependency file with every version pinned, on Python 3.12 (the kernel crashes
-on 3.14). Right now there are three: `requirements.txt`, `environment.yml`, `environment-3.12.yml`. Update this section
-once the group has picked one._
-
-With `requirements.txt` (works for venv and conda):
+Python **3.12** (the Jupyter kernel crashed on 3.14). `requirements.txt` is the **only** dependency file and every
+package in it is pinned. It works for both venv and conda:
 
 ```bash
 python -m venv .venv                      # or: conda create -n f20dl python=3.12, then conda activate f20dl
 .venv\Scripts\activate                    # Windows (macOS / Linux: source .venv/bin/activate)
 pip install -r requirements.txt
-pip install torch torchvision             # only needed for the image models (R4)
 ```
+
+`torch` and `torchvision` are only needed for the image models (R4). Those notebooks were trained on Google Colab GPUs
+(T4, L4, A100), which come with PyTorch installed; each R4 notebook explains how to run it there. If you add a package,
+add it to `requirements.txt` with its version and tell the group.
 
 ### 2. Getting the data (about 1.1 GB, never committed to git)
 
@@ -115,10 +113,16 @@ Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*
 | 6 | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb) | Faizal | photos, bounding boxes | `data/cub_images.csv` | R4 |
 | 7 | `python scripts/prepare_images.py` | David | `cub_images.csv` + photos | `data/processed/images_cropped/`, `cub_images_cropped.csv` | **R4 (CNN)** |
 | 8 | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb) | David | cropped photos | checks + figures | report |
-| – | model notebooks (`decisionTree*`, `randomForest*`, `knn`, `logistic_regression`) | R3 owners | `cub_features_*.csv` or raw files | `results/` | report |
+| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb), [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
+| R3 | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | Tengku | `cub_features_A.csv` | `results/knn_*.csv`, `results/figures/` | report |
+| R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
+| R4 | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
+| R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
+| R4 | [`vit.ipynb`](notebooks/vit.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` | report |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
-for the report. Steps 6–8 are only needed for the neural network.
+for the report. Steps 6–8 are only needed for the neural networks; the ResNet-50 and ViT notebooks run them for you on
+Colab.
 
 The generated CSVs are git-ignored (`/data/*.csv`): re-run the notebook that makes a file to recreate it.
 `data/feature_sets.json` is small and is committed.
@@ -160,6 +164,9 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 | 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml` | Suhaib |
 | 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb` | David |
 | 2026-11-05 | R2 analysis notebooks and `imagePrep.ipynb` added on top of `dataPrep`; dataset found in `data/raw/` or the repo root; image pipeline reads `data/cub_images.csv` | Faizal |
+| 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
+| 2026-11-11 | Image pipeline supports a 448 px input size | David |
+| 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
 
 ---
 
@@ -177,10 +184,10 @@ are no missing values. Training classes are balanced (29–30 photos per species
 
 | Option | Decision tree | Logistic regression | k-NN (k=10) |
 |---|---|---|---|
-| **A, raw 0/1** | **0.237** | **0.473** | **0.283** |
-| A, guesses dropped | 0.229 | 0.461 | 0.272 |
-| B, not visible = −1 | 0.233 | 0.432 | 0.137 |
-| C, + 28 not-visible flags | 0.227 | 0.466 | 0.272 |
+| **A, raw 0/1** | **0.237** | **0.473** | **0.288** |
+| A, guesses dropped | 0.229 | 0.461 | 0.271 |
+| B, not visible = −1 | 0.233 | 0.432 | 0.139 |
+| C, + 28 not-visible flags | 0.227 | 0.466 | 0.271 |
 
 Variant A is best or tied for every model, so it is the default input, with `DROP_GUESSING_POSITIVES = False`.
 
@@ -198,11 +205,11 @@ evaluated with 5-fold CV (macro-F1):
 
 | Feature set | n | Bernoulli NB | Logistic regression | k-NN (k=10) |
 |---|---|---|---|---|
-| all attributes | 312 | **0.410** | 0.473 | 0.283 |
-| best 10 per class | 288 | 0.408 | **0.479** | 0.288 |
+| all attributes | 312 | **0.410** | 0.473 | 0.288 |
+| best 10 per class | 288 | 0.408 | **0.479** | 0.294 |
 | ranked top 150 | 150 | 0.404 | 0.460 | **0.297** |
-| ranked top 75 | 75 | 0.331 | 0.372 | 0.267 |
-| ranked top 30 | 30 | 0.148 | 0.146 | 0.129 |
+| ranked top 75 | 75 | 0.331 | 0.372 | 0.265 |
+| ranked top 30 | 30 | 0.148 | 0.146 | 0.125 |
 
 Removing attributes does not help much: about 150 attributes are needed to keep the accuracy of the full set. The subsets
 are saved in `data/feature_sets.json` for anyone who wants to try them in R3.
@@ -230,19 +237,43 @@ split before augmentation, and the test split is never augmented.
 
 ## R3: Baseline models
 
-_TODO (R3 owners): finalise the table, add figures and the chosen model._
+**What is predicted:** the species (200 classes) from the 312 binary attributes. All results are on the official test
+set (5,794 photos), which was used once, after all choices were made with cross-validation on the training set.
 
-Current results on the official test set, as reported in [`tabularDataAnalysis.md`](tabularDataAnalysis.md) and
-[`results/`](results/):
+| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
+|---|---|---|---|---|---|
+| Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
+| k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
+| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
+| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant C | 45.6% | 0.435 | 72.1% |
+| Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
+| Random forest, optimised (hierarchical RF + logistic regression) | [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | variant C + 73 regional features | 51.0% | 0.506 | 76.6% |
 
-| Model | Notebook | Test accuracy | Test macro-F1 |
-|---|---|---|---|
-| Decision tree | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | 24.7% | _TODO_ |
-| Random forest | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | 45.6% | _TODO_ |
-| k-NN (k=21, cosine, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | 34.7% | 0.342 |
-| Logistic regression | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | 47.4% | _TODO_ |
+Every model sits between about 25% and 51%: the attributes are sparse, noisy and shared by look-alike species
+(see R2), so even the best attribute model gets about half the photos right.
 
 ## R4: Neural networks
 
-_TODO (R4 owners): what is predicted, inputs, results table, figure, links._ Load the photos with `make_loaders()`
-(see "Loading the prepared data" above).
+**What is predicted:** the species (200 classes), from the attributes (MLP) or from the photo (CNNs and ViT). The image
+models use the R2 image pipeline (checked, cropped to the bird, resized; augmentation on training photos only), choose
+their learning rate on a 20% validation split of the training photos, are retrained on all training photos, and are
+tested once on the official test set.
+
+| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
+|---|---|---|---|---|---|
+| MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | 312 attributes | 44.3% | _not reported_ | _not reported_ |
+| Base CNN from scratch (4 blocks) | `base_cnn.ipynb` (branch `Ryan`, not yet merged) | photo, 448 px | 57.0% | 0.569 | 82.3% |
+| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 224 px | 76.4% | 0.764 | 93.5% |
+| ResNet-50, ImageNet-pretrained | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3% | 0.801 | 94.2% |
+| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 448 px | 81.9% | 0.818 | 95.0% |
+| ViT-B/16, ImageNet-pretrained | [`vit.ipynb`](notebooks/vit.ipynb) | photo, 224 px | 82.0% | 0.820 | 96.2% |
+| ViT-B/16, ImageNet-pretrained | `vit.ipynb` (448 px run on branch `Ryan`, not yet merged) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
+
+Photos beat attributes by a wide margin (84.2% vs 51.0%), and pretrained networks beat the network trained from scratch
+(57.0%) because about 30 training photos per species are too few to learn visual features from nothing.
+
+---
+
+## Use of generative AI
+
+_TODO (group): one standard GenAI statement for the whole project, added at the end._
