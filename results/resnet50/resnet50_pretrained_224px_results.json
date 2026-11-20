@@ -1,0 +1,30 @@
+{
+  "run": "resnet50_pretrained_224px",
+  "config": {
+    "run": "resnet50_pretrained_224px",
+    "pretrained": true,
+    "weights": "IMAGENET1K_V1",
+    "img_size": 224,
+    "batch_size": 64,
+    "epochs": 15,
+    "warmup_epochs": 1,
+    "lr_backbone": 0.002,
+    "lr_head": 0.02,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "smoke_test": false
+  },
+  "best_epoch": 14,
+  "val": {
+    "accuracy": 0.7489574645537949,
+    "macro_f1": 0.7468372738372738,
+    "top5_accuracy": 0.9374478732276897
+  },
+  "test": {
+    "accuracy": 0.7637210907835692,
+    "macro_f1": 0.7639626120830232,
+    "top5_accuracy": 0.9351052813255092
+  },
+  "test_photos": 5794,
+  "train_minutes": 15.5
+}

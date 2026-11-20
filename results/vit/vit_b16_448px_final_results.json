@@ -1,0 +1,58 @@
+{
+  "run": "vit_b16_448px_final",
+  "config": {
+    "pipeline": "05_image_preparation",
+    "model": "vit_b_16",
+    "weights": "IMAGENET1K_V1",
+    "img_size": 448,
+    "store_px": 512,
+    "batch_size": 64,
+    "micro_batch": 32,
+    "epochs": 25,
+    "warmup_epochs": 1,
+    "head_lr_mult": 10,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.1,
+    "grad_clip": 1.0,
+    "smoke_test": false,
+    "lr_backbone": 0.01,
+    "final_retrain": true
+  },
+  "selection": [
+    {
+      "backbone lr": 0.003,
+      "run": "vit_b16_448px_lr0.003",
+      "best epoch": 15,
+      "val accuracy": 0.8023352793994996,
+      "val macro-F1": 0.7996061299811299,
+      "val top-5": 0.9582985821517932,
+      "minutes": 15.5
+    },
+    {
+      "backbone lr": 0.006,
+      "run": "vit_b16_448px_lr0.006",
+      "best epoch": 21,
+      "val accuracy": 0.8148457047539617,
+      "val macro-F1": 0.813264654463184,
+      "val top-5": 0.9582985821517932,
+      "minutes": 15.5
+    },
+    {
+      "backbone lr": 0.01,
+      "run": "vit_b16_448px_lr0.01",
+      "best epoch": 15,
+      "val accuracy": 0.8165137614678899,
+      "val macro-F1": 0.8137126786612082,
+      "val top-5": 0.9532944120100083,
+      "minutes": 15.5
+    }
+  ],
+  "final_epoch": 25,
+  "test": {
+    "accuracy": 0.8415602347255782,
+    "macro_f1": 0.8406142647956512,
+    "top5_accuracy": 0.9566793234380393
+  },
+  "test_photos": 5794,
+  "train_minutes_total": 63.8
+}

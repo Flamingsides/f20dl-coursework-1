@@ -22,6 +22,10 @@ Bird-specific choices (justify these in the report):
                      Wilson Warbler), so shifting hue can turn one species into
                      another. Brightness/contrast/saturation are safe.
   - Rotation:        small (+-15 degrees), like a tilted camera.
+  - Image size:      224 px (default) or 448 px. Higher resolution keeps fine details
+                     (eye rings, wing bars, bill shape) that separate look-alike species. For 448 px, first run
+                     `python scripts/prepare_images.py --short-side 512`, then use make_transforms(448)
+                     or make_loaders(..., img_size=448).
 
 Needs (add to the dependency file): torch, torchvision (>= 0.16 for MixUp/CutMix).
 """
@@ -42,24 +46,34 @@ N_CLASSES = 200
 # ---------------------------------------------------------------------------
 # 1. Transforms
 # ---------------------------------------------------------------------------
-train_transform = T.Compose([
-    T.ToImage(),
-    T.RandomResizedCrop(IMG_SIZE, scale=(0.6, 1.0), ratio=(3 / 4, 4 / 3), antialias=True),
-    T.RandomHorizontalFlip(p=0.5),
-    T.RandomRotation(degrees=15),
-    T.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.02),
-    T.ToDtype(torch.float32, scale=True),
-    T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
-    T.RandomErasing(p=0.25, scale=(0.02, 0.15)),   # hides a patch -> model can't rely on one part
-])
+def store_size(img_size):
+    """Shorter side the photos are stored at for a model input size: 224 -> 256, 448 -> 512."""
+    return round(img_size * 256 / 224)
 
-eval_transform = T.Compose([                        # validation AND test: no randomness
-    T.ToImage(),
-    T.Resize(IMG_SIZE + 32, antialias=True),       # 256
-    T.CenterCrop(IMG_SIZE),
-    T.ToDtype(torch.float32, scale=True),
-    T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
-])
+
+def make_transforms(img_size=IMG_SIZE):
+    """(train, eval) transforms for any input size. Same choices at every size."""
+    train = T.Compose([
+        T.ToImage(),
+        T.RandomResizedCrop(img_size, scale=(0.6, 1.0), ratio=(3 / 4, 4 / 3), antialias=True),
+        T.RandomHorizontalFlip(p=0.5),
+        T.RandomRotation(degrees=15),
+        T.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.02),
+        T.ToDtype(torch.float32, scale=True),
+        T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
+        T.RandomErasing(p=0.25, scale=(0.02, 0.15)),   # hides a patch -> model can't rely on one part
+    ])
+    evaluate = T.Compose([                              # validation AND test: no randomness
+        T.ToImage(),
+        T.Resize(store_size(img_size), antialias=True),  # 256 for 224, 512 for 448
+        T.CenterCrop(img_size),
+        T.ToDtype(torch.float32, scale=True),
+        T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
+    ])
+    return train, evaluate
+
+
+train_transform, eval_transform = make_transforms(IMG_SIZE)   # 224 px, kept so existing notebooks work unchanged
 
 
 # ---------------------------------------------------------------------------
@@ -89,16 +103,22 @@ def make_splits(csv_path, val_size=0.2):
                                   stratify=train_full["class_id"], random_state=RANDOM_STATE)
     return train, val, test
 
+def cropped_csv(processed_dir, img_size=IMG_SIZE):
+    """Table written by prepare_images.py for this input size (same names as its output_paths)."""
+    px = store_size(img_size)
+    return Path(processed_dir) / ("cub_images_cropped.csv" if px == 256 else f"cub_images_cropped_{px}.csv")
 
-def make_loaders(processed_dir, batch_size=32, num_workers=2):
+
+def make_loaders(processed_dir, batch_size=32, num_workers=2, img_size=IMG_SIZE):
     processed_dir = Path(processed_dir)
-    train, val, test = make_splits(processed_dir / "cub_images_cropped.csv")
+    train, val, test = make_splits(cropped_csv(processed_dir, img_size))
+    train_tf, eval_tf = make_transforms(img_size)
     g = torch.Generator().manual_seed(RANDOM_STATE)
     return (
-        DataLoader(BirdImages(train, processed_dir, train_transform), batch_size,
+        DataLoader(BirdImages(train, processed_dir, train_tf), batch_size,
                    shuffle=True, num_workers=num_workers, generator=g, drop_last=True),
-        DataLoader(BirdImages(val, processed_dir, eval_transform), batch_size, num_workers=num_workers),
-        DataLoader(BirdImages(test, processed_dir, eval_transform), batch_size, num_workers=num_workers),
+        DataLoader(BirdImages(val, processed_dir, eval_tf), batch_size, num_workers=num_workers),
+        DataLoader(BirdImages(test, processed_dir, eval_tf), batch_size, num_workers=num_workers),
     )
 
 
