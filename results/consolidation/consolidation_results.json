@@ -184,5 +184,48 @@
   "agreement": 0.41974456334138766,
   "fixed": 193,
   "broken": 86,
-  "vit448_test": null
+  "vit448_test": [
+    {
+      "model": "ViT-B/16 (448 px) alone",
+      "accuracy": 0.8415602347255782,
+      "macro_f1": 0.8406142647956512,
+      "fixed": 0,
+      "broken": 0
+    },
+    {
+      "model": "448 px ViT + k-NN + LDA (certainty-weighted), w = 0.6 (chosen in section 5)",
+      "accuracy": 0.8538142906454953,
+      "macro_f1": 0.853211496426317,
+      "fixed": 141,
+      "broken": 70
+    },
+    {
+      "model": "448 px ViT + Logistic regression, w = 0.7",
+      "accuracy": 0.855022437003797,
+      "macro_f1": 0.8543667472706278,
+      "fixed": 126,
+      "broken": 48
+    },
+    {
+      "model": "448 px ViT + Random forest, w = 0.5",
+      "accuracy": 0.8524335519502934,
+      "macro_f1": 0.8511687746363046,
+      "fixed": 93,
+      "broken": 30
+    },
+    {
+      "model": "448 px ViT + Decision tree, w = 0.9",
+      "accuracy": 0.8444943044528823,
+      "macro_f1": 0.8438248592166073,
+      "fixed": 38,
+      "broken": 21
+    },
+    {
+      "model": "448 px ViT + k-NN, w = 0.7",
+      "accuracy": 0.847083189506386,
+      "macro_f1": 0.8463083725550117,
+      "fixed": 63,
+      "broken": 31
+    }
+  ]
 }
