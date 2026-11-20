@@ -113,16 +113,17 @@ Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*
 | 6 | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb) | Faizal | photos, bounding boxes | `data/cub_images.csv` | R4 |
 | 7 | `python scripts/prepare_images.py` | David | `cub_images.csv` + photos | `data/processed/images_cropped/`, `cub_images_cropped.csv` | **R4 (CNN)** |
 | 8 | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb) | David | cropped photos | checks + figures | report |
-| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb), [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
+| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb), [`randomForest_encodingA.ipynb`](notebooks/randomForest_encodingA.ipynb), [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
 | R3 | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | Tengku | `cub_features_A.csv` | `results/knn_*.csv`, `results/figures/` | report |
 | R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
 | R4 | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
 | R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
-| R4 | [`vit.ipynb`](notebooks/vit.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` | report |
+| R4 | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | David, Ryan | cropped photos (steps 6–8) | `results/base_cnn/` | report |
+| R4 | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` (448 px run also saves its test probabilities) | report |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
-for the report. Steps 6–8 are only needed for the neural networks; the ResNet-50 and ViT notebooks run them for you on
-Colab.
+for the report. Steps 6–8 are only needed for the neural networks; the base CNN, ResNet-50 and ViT notebooks run them
+for you on Colab.
 
 The generated CSVs are git-ignored (`/data/*.csv`): re-run the notebook that makes a file to recreate it.
 `data/feature_sets.json` is small and is committed.
@@ -167,6 +168,7 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 | 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
 | 2026-11-11 | Image pipeline supports a 448 px input size | David |
 | 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
+| 2026-11-20 | `randomForest_encodingA.ipynb`: copy of `randomForest.ipynb` that keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models); `randomForest.ipynb` still selects C | Ryan |
 
 ---
 
@@ -245,6 +247,7 @@ set (5,794 photos), which was used once, after all choices were made with cross-
 | Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
 | k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
 | k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
+| Random forest (tuned, 750 trees), variant A | [`randomForest_encodingA.ipynb`](notebooks/randomForest_encodingA.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
 | Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant C | 45.6% | 0.435 | 72.1% |
 | Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
 | Random forest, optimised (hierarchical RF + logistic regression) | [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | variant C + 73 regional features | 51.0% | 0.506 | 76.6% |
@@ -262,12 +265,12 @@ tested once on the official test set.
 | Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
 |---|---|---|---|---|---|
 | MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | 312 attributes | 44.3% | _not reported_ | _not reported_ |
-| Base CNN from scratch (4 blocks) | `base_cnn.ipynb` (branch `Ryan`, not yet merged) | photo, 448 px | 57.0% | 0.569 | 82.3% |
+| Base CNN from scratch (4 blocks) | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | photo, 448 px | 57.0% | 0.569 | 82.3% |
 | ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 224 px | 76.4% | 0.764 | 93.5% |
 | ResNet-50, ImageNet-pretrained | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3% | 0.801 | 94.2% |
 | ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 448 px | 81.9% | 0.818 | 95.0% |
 | ViT-B/16, ImageNet-pretrained | [`vit.ipynb`](notebooks/vit.ipynb) | photo, 224 px | 82.0% | 0.820 | 96.2% |
-| ViT-B/16, ImageNet-pretrained | `vit.ipynb` (448 px run on branch `Ryan`, not yet merged) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
+| ViT-B/16, ImageNet-pretrained | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
 
 Photos beat attributes by a wide margin (84.2% vs 51.0%), and pretrained networks beat the network trained from scratch
 (57.0%) because about 30 training photos per species are too few to learn visual features from nothing.
