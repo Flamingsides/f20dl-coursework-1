@@ -113,7 +113,7 @@ Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*
 | 6 | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb) | Faizal | photos, bounding boxes | `data/cub_images.csv` | R4 |
 | 7 | `python scripts/prepare_images.py` | David | `cub_images.csv` + photos | `data/processed/images_cropped/`, `cub_images_cropped.csv` | **R4 (CNN)** |
 | 8 | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb) | David | cropped photos | checks + figures | report |
-| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb), [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
+| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb), [`randomForest_encodingA.ipynb`](notebooks/randomForest_encodingA.ipynb), [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
 | R3 | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | Tengku | `cub_features_A.csv` | `results/knn_*.csv`, `results/figures/` | report |
 | R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
 | R4 | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
@@ -168,7 +168,7 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 | 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
 | 2026-11-11 | Image pipeline supports a 448 px input size | David |
 | 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
-| 2026-11-20 | `randomForest.ipynb` keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models) | Ryan |
+| 2026-11-20 | `randomForest_encodingA.ipynb`: copy of `randomForest.ipynb` that keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models); `randomForest.ipynb` still selects C | Ryan |
 
 ---
 
@@ -247,7 +247,8 @@ set (5,794 photos), which was used once, after all choices were made with cross-
 | Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
 | k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
 | k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
-| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
+| Random forest (tuned, 750 trees), variant A | [`randomForest_encodingA.ipynb`](notebooks/randomForest_encodingA.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
+| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant C | 45.6% | 0.435 | 72.1% |
 | Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
 | Random forest, optimised (hierarchical RF + logistic regression) | [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | variant C + 73 regional features | 51.0% | 0.506 | 76.6% |
 
