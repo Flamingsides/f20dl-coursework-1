@@ -118,11 +118,12 @@ Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*
 | R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
 | R4 | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
 | R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
-| R4 | [`vit.ipynb`](notebooks/vit.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` | report |
+| R4 | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | David, Ryan | cropped photos (steps 6–8) | `results/base_cnn/` | report |
+| R4 | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` (448 px run also saves its test probabilities) | report |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
-for the report. Steps 6–8 are only needed for the neural networks; the ResNet-50 and ViT notebooks run them for you on
-Colab.
+for the report. Steps 6–8 are only needed for the neural networks; the base CNN, ResNet-50 and ViT notebooks run them
+for you on Colab.
 
 The generated CSVs are git-ignored (`/data/*.csv`): re-run the notebook that makes a file to recreate it.
 `data/feature_sets.json` is small and is committed.
@@ -262,12 +263,12 @@ tested once on the official test set.
 | Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
 |---|---|---|---|---|---|
 | MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | 312 attributes | 44.3% | _not reported_ | _not reported_ |
-| Base CNN from scratch (4 blocks) | `base_cnn.ipynb` (branch `Ryan`, not yet merged) | photo, 448 px | 57.0% | 0.569 | 82.3% |
+| Base CNN from scratch (4 blocks) | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | photo, 448 px | 57.0% | 0.569 | 82.3% |
 | ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 224 px | 76.4% | 0.764 | 93.5% |
 | ResNet-50, ImageNet-pretrained | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3% | 0.801 | 94.2% |
 | ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 448 px | 81.9% | 0.818 | 95.0% |
 | ViT-B/16, ImageNet-pretrained | [`vit.ipynb`](notebooks/vit.ipynb) | photo, 224 px | 82.0% | 0.820 | 96.2% |
-| ViT-B/16, ImageNet-pretrained | `vit.ipynb` (448 px run on branch `Ryan`, not yet merged) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
+| ViT-B/16, ImageNet-pretrained | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
 
 Photos beat attributes by a wide margin (84.2% vs 51.0%), and pretrained networks beat the network trained from scratch
 (57.0%) because about 30 training photos per species are too few to learn visual features from nothing.
