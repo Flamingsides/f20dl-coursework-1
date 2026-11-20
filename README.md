@@ -168,6 +168,7 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 | 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
 | 2026-11-11 | Image pipeline supports a 448 px input size | David |
 | 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
+| 2026-11-20 | `randomForest.ipynb` keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models) | Ryan |
 
 ---
 
@@ -246,7 +247,7 @@ set (5,794 photos), which was used once, after all choices were made with cross-
 | Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
 | k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
 | k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
-| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant C | 45.6% | 0.435 | 72.1% |
+| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
 | Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
 | Random forest, optimised (hierarchical RF + logistic regression) | [`randomForestOptimisation.ipynb`](notebooks/randomForestOptimisation.ipynb) | variant C + 73 regional features | 51.0% | 0.506 | 76.6% |
 
