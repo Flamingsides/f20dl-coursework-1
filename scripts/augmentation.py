@@ -50,8 +50,9 @@ def store_size(img_size):
     """Shorter side the photos are stored at for a model input size: 224 -> 256, 448 -> 512."""
     return round(img_size * 256 / 224)
 
-
-def make_transforms(img_size=IMG_SIZE):
+# Normalise flag added by Suhaib for EfficientNet B0 which has 
+# normalisation built in.
+def make_transforms(img_size=IMG_SIZE, normalise=True):
     """(train, eval) transforms for any input size. Same choices at every size."""
     train = T.Compose([
         T.ToImage(),
@@ -59,17 +60,23 @@ def make_transforms(img_size=IMG_SIZE):
         T.RandomHorizontalFlip(p=0.5),
         T.RandomRotation(degrees=15),
         T.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2, hue=0.02),
-        T.ToDtype(torch.float32, scale=True),
+        T.ToDtype(torch.float32, scale=True)
+    ] + ([
         T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
         T.RandomErasing(p=0.25, scale=(0.02, 0.15)),   # hides a patch -> model can't rely on one part
+    ] if normalise else [
+        T.RandomErasing(p=0.25, scale=(0.02, 0.15)),   # hides a patch -> model can't rely on one part
     ])
+    )
     evaluate = T.Compose([                              # validation AND test: no randomness
         T.ToImage(),
         T.Resize(store_size(img_size), antialias=True),  # 256 for 224, 512 for 448
         T.CenterCrop(img_size),
         T.ToDtype(torch.float32, scale=True),
+    ] + ([
         T.Normalize(IMAGENET_MEAN, IMAGENET_STD),
-    ])
+        ] if normalise else []
+    ))
     return train, evaluate
 
 
@@ -109,10 +116,10 @@ def cropped_csv(processed_dir, img_size=IMG_SIZE):
     return Path(processed_dir) / ("cub_images_cropped.csv" if px == 256 else f"cub_images_cropped_{px}.csv")
 
 
-def make_loaders(processed_dir, batch_size=32, num_workers=2, img_size=IMG_SIZE):
+def make_loaders(processed_dir, batch_size=32, num_workers=2, img_size=IMG_SIZE, normalise=True):
     processed_dir = Path(processed_dir)
     train, val, test = make_splits(cropped_csv(processed_dir, img_size))
-    train_tf, eval_tf = make_transforms(img_size)
+    train_tf, eval_tf = make_transforms(img_size, normalise=normalise)
     g = torch.Generator().manual_seed(RANDOM_STATE)
     return (
         DataLoader(BirdImages(train, processed_dir, train_tf), batch_size,
