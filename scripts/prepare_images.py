@@ -45,7 +45,12 @@ def crop_box(row, margin=MARGIN):
     top = max(0, row.bbox_y - dy)
     right = min(row.width, row.bbox_x + row.bbox_w + dx)
     bottom = min(row.height, row.bbox_y + row.bbox_h + dy)
-    return tuple(int(round(v)) for v in (left, top, right, bottom))
+    return (
+        int(round(left)),
+        int(round(top)),
+        int(round(right)),
+        int(round(bottom))
+    )
 
 
 def output_paths(short_side):
@@ -60,7 +65,7 @@ def process_one(row, out_dir=OUT_DIR, target_short=TARGET_SHORT):
         img = img.crop(crop_box(row))                  # (b) crop to the bird
         scale = target_short / min(img.size)           # (c) shorter side -> target_short
         new_size = (max(1, round(img.width * scale)), max(1, round(img.height * scale)))
-        img = img.resize(new_size, Image.BICUBIC)
+        img = img.resize(new_size, Image.Resampling.BICUBIC)
         out = out_dir / row.image_path
         out.parent.mkdir(parents=True, exist_ok=True)
         img.save(out, quality=95)
