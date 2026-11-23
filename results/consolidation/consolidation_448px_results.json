@@ -1,0 +1,139 @@
+{
+  "image_model": {
+    "name": "ViT-B/16 (448 px)",
+    "validation": "vit_b16_448px_lr0.01",
+    "test": "vit_b16_448px_final",
+    "learning_rate": 0.01
+  },
+  "attribute_models": [
+    "Logistic regression",
+    "Random forest",
+    "k-NN",
+    "k-NN + LDA (certainty-weighted)",
+    "Decision tree"
+  ],
+  "k_candidates": 5,
+  "weights_tried": [
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "chosen": {
+    "attribute_model": "Random forest",
+    "weight_image": 0.5
+  },
+  "validation_photos": 1199,
+  "test_photos": 5794,
+  "ceiling_top5": {
+    "validation": 0.9524603836530442,
+    "test": 0.9566793234380393
+  },
+  "single_models": [
+    {
+      "model": "ViT-B/16 (448 px)",
+      "data": "images",
+      "val accuracy": 0.8098415346121768,
+      "val macro_f1": 0.8063087476249241,
+      "test accuracy": 0.8415602347255782,
+      "test macro_f1": 0.8406142647956512
+    },
+    {
+      "model": "Logistic regression",
+      "data": "attributes",
+      "val accuracy": 0.445371142618849,
+      "val macro_f1": 0.44505044710191766,
+      "test accuracy": 0.47411114946496374,
+      "test macro_f1": 0.4797982837027138
+    },
+    {
+      "model": "Random forest",
+      "data": "attributes",
+      "val accuracy": 0.4361968306922435,
+      "val macro_f1": 0.4119014242495364,
+      "test accuracy": 0.453572661373835,
+      "test macro_f1": 0.4344005270986864
+    },
+    {
+      "model": "k-NN",
+      "data": "attributes",
+      "val accuracy": 0.3327773144286906,
+      "val macro_f1": 0.32609980429764573,
+      "test accuracy": 0.35277873662409387,
+      "test macro_f1": 0.35005154702065105
+    },
+    {
+      "model": "k-NN + LDA (certainty-weighted)",
+      "data": "attributes",
+      "val accuracy": 0.4361968306922435,
+      "val macro_f1": 0.4070986296555182,
+      "test accuracy": 0.443562305833621,
+      "test macro_f1": 0.41968579841428627
+    },
+    {
+      "model": "Decision tree",
+      "data": "attributes",
+      "val accuracy": 0.24103419516263552,
+      "val macro_f1": 0.2351352739967291,
+      "test accuracy": 0.2462892647566448,
+      "test macro_f1": 0.24616653175733091
+    }
+  ],
+  "table5": [
+    {
+      "model": "Classical: Random forest",
+      "data": "attributes",
+      "accuracy": 0.453572661373835,
+      "macro_f1": 0.4344005270986864
+    },
+    {
+      "model": "Neural network: ViT-B/16 (448 px)",
+      "data": "images",
+      "accuracy": 0.8415602347255782,
+      "macro_f1": 0.8406142647956512
+    },
+    {
+      "model": "Model ensemble (top-5, w = 0.5)",
+      "data": "both",
+      "accuracy": 0.8538142906454953,
+      "macro_f1": 0.8526373645509961
+    }
+  ],
+  "table6": [
+    {
+      "outcome": "Both correct",
+      "photos": 2431,
+      "ensemble_correct": 2431,
+      "share (%)": 42.0
+    },
+    {
+      "outcome": "Only the classical model is correct",
+      "photos": 197,
+      "ensemble_correct": 82,
+      "share (%)": 3.4
+    },
+    {
+      "outcome": "Only the neural network is correct",
+      "photos": 2445,
+      "ensemble_correct": 2408,
+      "share (%)": 42.2
+    },
+    {
+      "outcome": "Both wrong (same species)",
+      "photos": 112,
+      "ensemble_correct": 0,
+      "share (%)": 1.9
+    },
+    {
+      "outcome": "Both wrong (different species)",
+      "photos": 609,
+      "ensemble_correct": 26,
+      "share (%)": 10.5
+    }
+  ],
+  "agreement": 0.43890231273731445,
+  "fixed": 108,
+  "broken": 37
+}
