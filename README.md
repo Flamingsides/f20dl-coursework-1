@@ -281,3 +281,39 @@ Photos beat attributes by a wide margin (84.2% vs 51.0%), and pretrained network
 ## Use of generative AI
 
 _TODO (group): one standard GenAI statement for the whole project, added at the end._
+
+### R2: Faizal
+
+Each R2 notebook has its full GenAI disclosure as comments at the top of its first code cell, as Section 8 of the
+coursework spec asks. The statements, per notebook:
+
+- [`eda.ipynb`](notebooks/eda.ipynb):
+  > Before this notebook I studied data exploration, data preparation and PCA (Lectures 2, 3 and 8; Tutorial 1).  
+  > I then used Claude (Anthropic) to explore different ways of analysing sparse binary attributes (correlation, species profiles, PCA).  
+  > I also used Claude (Anthropic) to help fix and improve the code and explanations.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
+
+- [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb):
+  > Before this notebook I studied data preparation, cross-validation and evaluation measures (Lectures 3, 5 and 6).  
+  > I then used Claude (Anthropic) to explore options for encoding the 'not visible' and certainty labels, and how to compare them fairly.  
+  > I also used Claude (Anthropic) to help fix and improve the code and explanations.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
+
+- [`featureSelection.ipynb`](notebooks/featureSelection.ipynb):
+  > Before this notebook I studied feature selection (feature selection lab, the 'best correlated features' addendum, Lecture 6).  
+  > I then used Claude (Anthropic) to explore which ranking methods suit binary attributes and a 200-class label (Cramer's V, information gain).  
+  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
+
+- [`clustering.ipynb`](notebooks/clustering.ipynb):
+  > Before this notebook I studied K-Means, EM and clustering evaluation (P6 Clustering, Tutorial 4).  
+  > I then used Claude (Anthropic) to explore how to apply and evaluate clustering on photos and on species profiles.  
+  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
+
+- [`imagePrep.ipynb`](notebooks/imagePrep.ipynb):
+  > Before this notebook I studied basic image processing (Tutorial 2).  
+  > I then used Claude (Anthropic) to explore which checks the photos and bounding boxes need before the CNN pipeline.  
+  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
+  > I checked the code line by line with my own judgement.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).
