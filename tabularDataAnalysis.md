@@ -163,13 +163,13 @@ Same protocol and CV folds as the decision tree. One-at-a-time validation curves
 
 | Metric | Decision tree | Random forest |
 |---|---|---|
-| CV accuracy (5-fold, train) | 24.7% | 44.5% |
-| Test accuracy | 24.7% | **45.6%** |
-| Test macro-F1 | 0.245 | **0.435** |
-| Test top-5 accuracy | 26.4% | **72.1%** |
+| CV accuracy (5-fold, train) | 24.7% | 44.4% |
+| Test accuracy | 24.7% | **45.2%** |
+| Test macro-F1 | 0.245 | **0.432** |
+| Test top-5 accuracy | 26.4% | **72.0%** |
 
-- **Selected configuration:** variant C, gini, `max_features='sqrt'`, `min_samples_leaf=2`, `max_depth=30`, 750 trees (where the OOB curve plateaus).
-- **The forest is significantly better:** McNemar's exact test gives p ≈ 1e-221, and 183 of the 200 species improve.
+- **Selected configuration:** variant A, gini, `max_features=0.1`, `min_samples_leaf=2`, `max_depth=30`, 750 trees (where the OOB curve plateaus).
+- **The forest is significantly better:** McNemar's exact test gives p ≈ 5e-222, and 185 of the 200 species improve.
 - **Gini beats entropy** by about 6 points. The top grid configurations are within about 0.5 points of each other, so the forest is robust to tuning.
-- **"Not visible" encoding:** C ≈ A (0.445 vs 0.444, well within the fold std of about 1.5 points) > B (0.435). There is no measurable benefit from encoding visibility, which is consistent with the decision tree results.
-- **Most important attribute groups (group permutation on test):** throat colour, bill shape, bill length, forehead, crown and bill colour. Tail and wing shape and pattern contribute about nothing.
+- **"Not visible" encoding:** C ≈ A (0.445 vs 0.444) > B (0.435). C's lead (0.13 points) is far smaller than A's fold std (1.2 points), so A is kept, the same input as the other classical models. There is no measurable benefit from encoding visibility, which is consistent with the decision tree results.
+- **Most important attribute groups (group permutation on test):** throat colour, bill shape, crown and forehead colour, bill length, and bill colour. Tail and wing shape and pattern contribute about nothing.
