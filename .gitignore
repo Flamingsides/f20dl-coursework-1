@@ -24,3 +24,8 @@ __pycache__/
 # EfficientNet B0 Training Checkpoint files
 notebooks/checkpoints/effnet_best.keras
 notebooks/checkpoints/effnet_history.csv
+
+# Local-only random forest notebooks
+notebooks/randomForestOptimisation.ipynb
+notebooks/randomForestOptimisation_encodingA.ipynb
+notebooks/randomForest_encodingC.ipynb
