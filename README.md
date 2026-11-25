@@ -8,24 +8,24 @@
 
 ## Group members
 
-| Name | Role | Requirement work |
-|---|---|---|
-| Suhaib Hameed Zuberi | Team Lead | R3: logistic regression; R4: MLP |
-| Tengku Adam Syafiq | Presentation and Pitch Lead | R3: k-NN, k-NN improvements; R4: ViT-B/16 notebook; data download script |
-| Ryan Goh | Data Management Lead | R2: tabular data preparation; R3: decision tree, random forest, random forest optimisation; R4: ResNet-50, training runs |
-| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks; repository and README |
-| David Ling | Final Report Lead | R2: image pipeline for R4 (crop, resize, augmentation); R4: base CNN; meeting logs |
+| Name                           | Role                          | Requirement work                                                                                                         |
+| ------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Suhaib Hameed Zuberi           | Team Lead                     | R3: logistic regression; R4: MLP                                                                                         |
+| Tengku Adam Syafiq             | Presentation and Pitch Lead   | R3: k-NN, k-NN improvements; R4: ViT-B/16 notebook; data download script                                                 |
+| Ryan Goh                       | Data Management Lead          | R2: tabular data preparation; R3: decision tree, random forest, random forest optimisation; R4: ResNet-50, training runs |
+| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks; repository and README                         |
+| David Ling                     | Final Report Lead             | R2: image pipeline for R4 (crop, resize, augmentation); R4: base CNN; meeting logs                                       |
 
 ## Project milestones
 
-| Milestone | Target |
-|---|---|
-| D1 Project pitch | Week 4 (done) |
-| R2 Data analysis and exploration | done, 7 Nov 2026 |
-| R3 Baseline models | done, 16 Nov 2026 |
-| R4 Neural networks | done, 17 Nov 2026 |
-| D2 Report + code | Week 11: Wed 25 Nov 2026, 15:30 |
-| D3 Mini-viva | Week 12: Mon 30 Nov 2026 |
+| Milestone                        | Target                          |
+| -------------------------------- | ------------------------------- |
+| D1 Project pitch                 | Week 4 (done)                   |
+| R2 Data analysis and exploration | done, 7 Nov 2026                |
+| R3 Baseline models               | done, 16 Nov 2026               |
+| R4 Neural networks               | done, 17 Nov 2026               |
+| D2 Report + code                 | Week 11: Wed 25 Nov 2026, 15:30 |
+| D3 Mini-viva                     | Week 12: Mon 30 Nov 2026        |
 
 ---
 
@@ -33,13 +33,13 @@
 
 ### Source and licence
 
-| | |
-|---|---|
-| **Dataset** | Caltech-UCSD Birds-200-2011 (CUB-200-2011) |
-| **True source** | California Institute of Technology: [dataset page](https://www.vision.caltech.edu/datasets/cub_200_2011/), archive on [Caltech Data](https://data.caltech.edu/records/65de6-vp158) |
-| **How we download it** | Kaggle mirror [`wenewone/cub2002011`](https://www.kaggle.com/datasets/wenewone/cub2002011), via `scripts/download_data.py` |
-| **Licence** | Non-commercial research and educational use only. Caltech does not own the copyright of the photos (they come from Flickr). |
-| **Citation** | Wah, C., Branson, S., Welinder, P., Perona, P. and Belongie, S. (2011) *The Caltech-UCSD Birds-200-2011 Dataset*. Technical Report CNS-TR-2011-001, California Institute of Technology. |
+|                        |                                                                                                                                                                                         |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Dataset**            | Caltech-UCSD Birds-200-2011 (CUB-200-2011)                                                                                                                                              |
+| **True source**        | California Institute of Technology: [dataset page](https://www.vision.caltech.edu/datasets/cub_200_2011/), archive on [Caltech Data](https://data.caltech.edu/records/65de6-vp158)      |
+| **How we download it** | Kaggle mirror [`wenewone/cub2002011`](https://www.kaggle.com/datasets/wenewone/cub2002011), via `scripts/download_data.py`                                                              |
+| **Licence**            | Non-commercial research and educational use only. Caltech does not own the copyright of the photos (they come from Flickr).                                                             |
+| **Citation**           | Wah, C., Branson, S., Welinder, P., Perona, P. and Belongie, S. (2011) _The Caltech-UCSD Birds-200-2011 Dataset_. Technical Report CNS-TR-2011-001, California Institute of Technology. |
 
 The Kaggle mirror is the official archive plus one extra file, `image_attribute_labels_clean.txt`, which repairs 606
 malformed lines of the original. `dataPrep.ipynb` verifies that this file is exactly the original with those lines fixed,
@@ -47,21 +47,21 @@ so nothing else differs from the true source.
 
 ### Two datasets from one source
 
-| | Dataset 1: tabular (R2, R3) | Dataset 2: images (R4) |
-|---|---|---|
-| Rows | 11,788 photos | 11,788 photos |
+|        | Dataset 1: tabular (R2, R3)                                                                                                      | Dataset 2: images (R4)                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Rows   | 11,788 photos                                                                                                                    | 11,788 photos                                   |
 | Inputs | 312 binary visual attributes (bill shape, wing colour, ...) from 28 body-part groups, labelled by Amazon Mechanical Turk workers | the photograph + a bounding box around the bird |
-| Target | species (200 classes) | species (200 classes) |
-| Split | official `train_test_split.txt`: 5,994 train / 5,794 test | same photos, same split |
+| Target | species (200 classes)                                                                                                            | species (200 classes)                           |
+| Split  | official `train_test_split.txt`: 5,994 train / 5,794 test                                                                        | same photos, same split                         |
 
 ### Two examples
 
 ![A Cardinal and a Blue Jay with their bounding boxes and the attributes marked present](documentation/figures/eda_examples.png)
 
-| image_id | species | split | attributes present (of 312) | some of its attributes |
-|---|---|---|---|---|
-| 898 | Cardinal | train | 42 | `has_bill_shape::cone`, `has_primary_color::red`, `has_head_pattern::crested`, `has_size::small_(5_-_9_in)` |
-| 4197 | Blue Jay | train | 37 | `has_bill_shape::cone`, `has_primary_color::blue`, `has_crown_color::blue`, `has_wing_pattern::spotted` |
+| image_id | species  | split | attributes present (of 312) | some of its attributes                                                                                      |
+| -------- | -------- | ----- | --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 898      | Cardinal | train | 42                          | `has_bill_shape::cone`, `has_primary_color::red`, `has_head_pattern::crested`, `has_size::small_(5_-_9_in)` |
+| 4197     | Blue Jay | train | 37                          | `has_bill_shape::cone`, `has_primary_color::blue`, `has_crown_color::blue`, `has_wing_pattern::spotted`     |
 
 ### Additional data collection
 
@@ -101,25 +101,25 @@ Either way you end up with `data/raw/CUB_200_2011/`. (A `CUB_200_2011/` folder a
 
 ### 3. Run the pipeline
 
-Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*:
+Start Jupyter (`jupyter lab`) and run the notebooks in this order with _Run All_:
 
-| # | Notebook | Owner | Input | Output | Needed by |
-|---|---|---|---|---|---|
-| 1 | [`dataPrep.ipynb`](notebooks/dataPrep.ipynb) | Ryan | attribute files | `data/cub_features_A/B/C.csv` | **all tabular models** |
-| 2 | [`eda.ipynb`](notebooks/eda.ipynb) | Faizal | `cub_features_A.csv` | figures only | report |
-| 3 | [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb) | Faizal | `cub_features_A/B/C.csv`, certainty labels | figure + cleaning decision | report |
-| 4 | [`featureSelection.ipynb`](notebooks/featureSelection.ipynb) | Faizal | `cub_features_A.csv` | `data/feature_sets.json` | R3 (optional feature subsets) |
-| 5 | [`clustering.ipynb`](notebooks/clustering.ipynb) | Faizal | `cub_features_A.csv` | figures only | report |
-| 6 | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb) | Faizal | photos, bounding boxes | `data/cub_images.csv` | R4 |
-| 7 | `python scripts/prepare_images.py` | David | `cub_images.csv` + photos | `data/processed/images_cropped/`, `cub_images_cropped.csv` | **R4 (CNN)** |
-| 8 | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb) | David | cropped photos | checks + figures | report |
-| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
-| R3 | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | Tengku | `cub_features_A.csv` | `results/knn_*.csv`, `results/figures/` | report |
-| R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
-| R4 | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
-| R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
-| R4 | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) (448 px), [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb) | David, Ryan | cropped photos (steps 6–8) | `results/base_cnn/` | report |
-| R4 | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` (448 px run also saves its test probabilities) | report |
+| #   | Notebook                                                                                                               | Owner        | Input                                      | Output                                                        | Needed by                     |
+| --- | ---------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------ | ------------------------------------------------------------- | ----------------------------- |
+| 1   | [`dataPrep.ipynb`](notebooks/dataPrep.ipynb)                                                                           | Ryan         | attribute files                            | `data/cub_features_A/B/C.csv`                                 | **all tabular models**        |
+| 2   | [`eda.ipynb`](notebooks/eda.ipynb)                                                                                     | Faizal       | `cub_features_A.csv`                       | figures only                                                  | report                        |
+| 3   | [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb)                                                       | Faizal       | `cub_features_A/B/C.csv`, certainty labels | figure + cleaning decision                                    | report                        |
+| 4   | [`featureSelection.ipynb`](notebooks/featureSelection.ipynb)                                                           | Faizal       | `cub_features_A.csv`                       | `data/feature_sets.json`                                      | R3 (optional feature subsets) |
+| 5   | [`clustering.ipynb`](notebooks/clustering.ipynb)                                                                       | Faizal       | `cub_features_A.csv`                       | figures only                                                  | report                        |
+| 6   | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb)                                                                         | Faizal       | photos, bounding boxes                     | `data/cub_images.csv`                                         | R4                            |
+| 7   | `python scripts/prepare_images.py`                                                                                     | David        | `cub_images.csv` + photos                  | `data/processed/images_cropped/`, `cub_images_cropped.csv`    | **R4 (CNN)**                  |
+| 8   | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb)                                                   | David        | cropped photos                             | checks + figures                                              | report                        |
+| R3  | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb)             | Ryan         | `cub_features_A/C.csv`                     | figures in the notebooks                                      | report                        |
+| R3  | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb)                       | Tengku       | `cub_features_A.csv`                       | `results/knn_*.csv`, `results/figures/`                       | report                        |
+| R3  | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb)                                                     | Suhaib       | `cub_features_A.csv`                       | printed scores                                                | report                        |
+| R4  | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb)                                                 | Suhaib       | `cub_features_A.csv`                       | printed scores                                                | report                        |
+| R4  | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan         | cropped photos (steps 6–8)                 | `results/resnet50/`                                           | report                        |
+| R4  | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) (448 px), [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb)        | David, Ryan  | cropped photos (steps 6–8)                 | `results/base_cnn/`                                           | report                        |
+| R4  | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb)                            | Tengku, Ryan | cropped photos (steps 6–8)                 | `results/vit/` (448 px run also saves its test probabilities) | report                        |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
 for the report. Steps 6–8 are only needed for the neural networks; the base CNN, ResNet-50 and ViT notebooks run them
@@ -158,18 +158,18 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 
 ### Pipeline change log
 
-| Date | Change | By |
-|---|---|---|
-| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C | Ryan |
-| 2026-10-22 | `scripts/download_data.py` (Kaggle download into `data/raw/`) | Tengku |
-| 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml` | Suhaib |
-| 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb` | David |
-| 2026-11-05 | R2 analysis notebooks and `imagePrep.ipynb` added on top of `dataPrep`; dataset found in `data/raw/` or the repo root; image pipeline reads `data/cub_images.csv` | Faizal |
-| 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
-| 2026-11-11 | Image pipeline supports a 448 px input size | David |
-| 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
-| 2026-11-20 | `randomForest_encodingA.ipynb`: copy of `randomForest.ipynb` that keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models); `randomForest.ipynb` still selects C | Ryan |
-| 2026-11-24 | The variant A random forest is now `randomForest.ipynb` (replacing the variant C version); the random forest optimisation notebooks are no longer in the repo | Ryan |
+| Date       | Change                                                                                                                                                                                                                                                                             | By     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C                                                                                                                                                                                                                                           | Ryan   |
+| 2026-10-22 | `scripts/download_data.py` (Kaggle download into `data/raw/`)                                                                                                                                                                                                                      | Tengku |
+| 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml`                                                                                                                                                                                     | Suhaib |
+| 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb`                                                                                                                                                                                               | David  |
+| 2026-11-05 | R2 analysis notebooks and `imagePrep.ipynb` added on top of `dataPrep`; dataset found in `data/raw/` or the repo root; image pipeline reads `data/cub_images.csv`                                                                                                                  | Faizal |
+| 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models                                                                                                                                                  | Ryan   |
+| 2026-11-11 | Image pipeline supports a 448 px input size                                                                                                                                                                                                                                        | David  |
+| 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables                                                                                     | Faizal |
+| 2026-11-20 | `randomForest_encodingA.ipynb`: copy of `randomForest.ipynb` that keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models); `randomForest.ipynb` still selects C | Ryan   |
+| 2026-11-24 | The variant A random forest is now `randomForest.ipynb` (replacing the variant C version); the random forest optimisation notebooks are no longer in the repo                                                                                                                      | Ryan   |
 
 ---
 
@@ -185,12 +185,12 @@ are no missing values. Training classes are balanced (29–30 photos per species
 **Annotator certainty** ([`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb)). Every encoding, including the
 "drop guessing positives" switch, was tested with three models (5-fold CV on the training set, macro-F1):
 
-| Option | Decision tree | Logistic regression | k-NN (k=10) |
-|---|---|---|---|
-| **A, raw 0/1** | **0.237** | **0.473** | **0.288** |
-| A, guesses dropped | 0.229 | 0.461 | 0.271 |
-| B, not visible = −1 | 0.233 | 0.432 | 0.139 |
-| C, + 28 not-visible flags | 0.227 | 0.466 | 0.271 |
+| Option                    | Decision tree | Logistic regression | k-NN (k=10) |
+| ------------------------- | ------------- | ------------------- | ----------- |
+| **A, raw 0/1**            | **0.237**     | **0.473**           | **0.288**   |
+| A, guesses dropped        | 0.229         | 0.461               | 0.271       |
+| B, not visible = −1       | 0.233         | 0.432               | 0.139       |
+| C, + 28 not-visible flags | 0.227         | 0.466               | 0.271       |
 
 Variant A is best or tied for every model, so it is the default input, with `DROP_GUESSING_POSITIVES = False`.
 
@@ -206,13 +206,13 @@ keep 80% of the variance, so there is no small set of directions that explains t
 (checked against information gain) on the training set only; 19 redundant attributes removed (|φ| > 0.8); subsets
 evaluated with 5-fold CV (macro-F1):
 
-| Feature set | n | Bernoulli NB | Logistic regression | k-NN (k=10) |
-|---|---|---|---|---|
-| all attributes | 312 | **0.410** | 0.473 | 0.288 |
-| best 10 per class | 288 | 0.408 | **0.479** | 0.294 |
-| ranked top 150 | 150 | 0.404 | 0.460 | **0.297** |
-| ranked top 75 | 75 | 0.331 | 0.372 | 0.265 |
-| ranked top 30 | 30 | 0.148 | 0.146 | 0.125 |
+| Feature set       | n   | Bernoulli NB | Logistic regression | k-NN (k=10) |
+| ----------------- | --- | ------------ | ------------------- | ----------- |
+| all attributes    | 312 | **0.410**    | 0.473               | 0.288       |
+| best 10 per class | 288 | 0.408        | **0.479**           | 0.294       |
+| ranked top 150    | 150 | 0.404        | 0.460               | **0.297**   |
+| ranked top 75     | 75  | 0.331        | 0.372               | 0.265       |
+| ranked top 30     | 30  | 0.148        | 0.146               | 0.125       |
 
 Removing attributes does not help much: about 150 attributes are needed to keep the accuracy of the full set. The subsets
 are saved in `data/feature_sets.json` for anyone who wants to try them in R3.
@@ -243,13 +243,13 @@ split before augmentation, and the test split is never augmented.
 **What is predicted:** the species (200 classes) from the 312 binary attributes. All results are on the official test
 set (5,794 photos), which was used once, after all choices were made with cross-validation on the training set.
 
-| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
-|---|---|---|---|---|---|
-| Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
-| k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
-| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
-| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
-| Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
+| Model                                          | Notebook                                                           | Input                         | Accuracy | Macro-F1       | Top-5          |
+| ---------------------------------------------- | ------------------------------------------------------------------ | ----------------------------- | -------- | -------------- | -------------- |
+| Decision tree (tuned)                          | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb)               | variant A                     | 24.7%    | 0.245          | 26.4%          |
+| k-NN (cosine, k = 21, distance-weighted)       | [`knn.ipynb`](notebooks/knn.ipynb)                                 | variant A                     | 34.7%    | 0.342          | 62.9%          |
+| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb)       | variant A, certainty-weighted | 44.2%    | 0.416          | 70.2%          |
+| Random forest (tuned, 750 trees)               | [`randomForest.ipynb`](notebooks/randomForest.ipynb)               | variant A                     | 45.2%    | 0.432          | 72.0%          |
+| Logistic regression (lbfgs, L2)                | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A                     | 47.4%    | _not reported_ | _not reported_ |
 
 Every model sits between about 25% and 47%: the attributes are sparse, noisy and shared by look-alike species
 (see R2), so even the best attribute model gets about half the photos right.
@@ -261,16 +261,16 @@ models use the R2 image pipeline (checked, cropped to the bird, resized; augment
 their learning rate on a 20% validation split of the training photos, are retrained on all training photos, and are
 tested once on the official test set.
 
-| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
-|---|---|---|---|---|---|
-| MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | 312 attributes | 44.3% | _not reported_ | _not reported_ |
-| Base CNN from scratch (4 blocks) | [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb) | photo, 224 px | 57.0% | 0.570 | 83.4% |
-| Base CNN from scratch (4 blocks) | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | photo, 448 px | 57.0% | 0.569 | 82.3% |
-| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 224 px | 76.4% | 0.764 | 93.5% |
-| ResNet-50, ImageNet-pretrained | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3% | 0.801 | 94.2% |
-| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 448 px | 81.9% | 0.818 | 95.0% |
-| ViT-B/16, ImageNet-pretrained | [`vit.ipynb`](notebooks/vit.ipynb) | photo, 224 px | 82.0% | 0.820 | 96.2% |
-| ViT-B/16, ImageNet-pretrained | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
+| Model                             | Notebook                                                                 | Input                      | Accuracy  | Macro-F1       | Top-5          |
+| --------------------------------- | ------------------------------------------------------------------------ | -------------------------- | --------- | -------------- | -------------- |
+| MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb)   | 312 attributes             | 44.3%     | _not reported_ | _not reported_ |
+| Base CNN from scratch (4 blocks)  | [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb)                 | photo, 224 px              | 57.0%     | 0.570          | 83.4%          |
+| Base CNN from scratch (4 blocks)  | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb)                             | photo, 448 px              | 57.0%     | 0.569          | 82.3%          |
+| ResNet-50, ImageNet-pretrained    | [`resnet50.ipynb`](notebooks/resnet50.ipynb)                             | photo, 224 px              | 76.4%     | 0.764          | 93.5%          |
+| ResNet-50, ImageNet-pretrained    | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3%     | 0.801          | 94.2%          |
+| ResNet-50, ImageNet-pretrained    | [`resnet50.ipynb`](notebooks/resnet50.ipynb)                             | photo, 448 px              | 81.9%     | 0.818          | 95.0%          |
+| ViT-B/16, ImageNet-pretrained     | [`vit.ipynb`](notebooks/vit.ipynb)                                       | photo, 224 px              | 82.0%     | 0.820          | 96.2%          |
+| ViT-B/16, ImageNet-pretrained     | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb)                           | photo, 448 px              | **84.2%** | **0.841**      | 95.7%          |
 
 Photos beat attributes by a wide margin (84.2% vs 47.4%), and pretrained networks beat the network trained from scratch
 (57.0%) because about 30 training photos per species are too few to learn visual features from nothing.
@@ -279,80 +279,14 @@ Photos beat attributes by a wide margin (84.2% vs 47.4%), and pretrained network
 
 ## Use of generative AI
 
-_TODO (group): one standard GenAI statement for the whole project, added at the end._
+This project used generative AI only as the coursework allows: **code generation with human evaluation** (Framework Statement 6) for the notebooks and scripts, and **editing and proofreading only** (Framework Statement 4) for the written report. The tool used was **Claude (Anthropic)**.
 
-### R2: Faizal
+**How we used it**
 
-Each R2 notebook has its full GenAI disclosure as comments at the top of its first code cell, as Section 8 of the
-coursework spec asks. The statements, per notebook:
+- Before using GenAI for a task, each member studied the relevant lectures, labs and tutorials, and decided on the approach (models, features, splits, metrics and hyperparameter ranges).
+- We then used Claude to explore options for that approach, and to generate or adapt code for it, often starting from a teammate's notebook so that every model shares the same data pipeline and protocol.
+- Every member ran their code end to end, checked the outputs against the data, and edited the code where it was wrong or did not match our decisions. All design decisions, the interpretation of results and the conclusions are our own.
+- GenAI was not used to write the report's content. It was only used to correct grammar, spelling and wording in text we had written ourselves.
 
-- [`eda.ipynb`](notebooks/eda.ipynb):
-  > Before this notebook I studied data exploration, data preparation and PCA (Lectures 2, 3 and 8; Tutorial 1).  
-  > I then used Claude (Anthropic) to explore different ways of analysing sparse binary attributes (correlation, species profiles, PCA).  
-  > I also used Claude (Anthropic) to help fix and improve the code and explanations.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
-
-- [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb):
-  > Before this notebook I studied data preparation, cross-validation and evaluation measures (Lectures 3, 5 and 6).  
-  > I then used Claude (Anthropic) to explore options for encoding the 'not visible' and certainty labels, and how to compare them fairly.  
-  > I also used Claude (Anthropic) to help fix and improve the code and explanations.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
-
-- [`featureSelection.ipynb`](notebooks/featureSelection.ipynb):
-  > Before this notebook I studied feature selection (feature selection lab, the 'best correlated features' addendum, Lecture 6).  
-  > I then used Claude (Anthropic) to explore which ranking methods suit binary attributes and a 200-class label (Cramer's V, information gain).  
-  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
-
-- [`clustering.ipynb`](notebooks/clustering.ipynb):
-  > Before this notebook I studied K-Means, EM and clustering evaluation (P6 Clustering, Tutorial 4).  
-  > I then used Claude (Anthropic) to explore how to apply and evaluate clustering on photos and on species profiles.  
-  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).  
-
-- [`imagePrep.ipynb`](notebooks/imagePrep.ipynb):
-  > Before this notebook I studied basic image processing (Tutorial 2).  
-  > I then used Claude (Anthropic) to explore which checks the photos and bounding boxes need before the CNN pipeline.  
-  > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
-  > I checked the code line by line with my own judgement.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).
-
-### R3, R4 Tengku
-Each R3 and R4 notebooks have its full GenAI disclosure as comments at the top of their first code cell, as Section 8 of the
-coursework spec asks. The statements, per notebook:
-
-Each notebook has its full GenAI disclosure as comments at the top of its first code cell, as Section 8 of the
-coursework spec asks. The statements, per notebook:
-
-- [`knn.ipynb`](notebooks/knn.ipynb):
-  > Before this notebook I studied k-NN, model testing and model evaluation (Lecture 3, 6, 7 and k-NN lab).  
-  > I then used Claude (Anthropic) to explore which distances and weightings suit sparse 0/1 attributes, and how to tune k fairly with cross-validation.  
-  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude; the findings notes are my own.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
-  > Prompt used: "based on the CUB-200-2011 tabular attributes prepared in dataPrep.ipynb, write a notebook that compares k-NN with different distances and weightings, and tunes k fairly with cross-validation. Use sklearn's KNeighborsClassifier and GridSearchCV."
-
-- [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb):
-  > Before this notebook I studied k-NN, model testing and model evaluation (Lecture 3, 6, 7 and k-NN lab).  
-  > I then used Claude (Anthropic) to explore how to compare feature selection (filter, wrapper) and feature extraction (PCA, LDA) on the same folds, and how to test the differences.  
-  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude; the findings notes are my own.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
-  > Prompt used: "from knn.ipynb, write a notebook that compares feature selection (filter, wrapper) and feature extraction (PCA, LDA) on the same folds, and tests the differences. Use sklearn's KNeighborsClassifier and cross_validate."
-
-- [`vit.ipynb`](notebooks/vit.ipynb):
-  > Before this notebook I studied Neural Networks, Convolutional Neural Networks, Model Testing, Model Evaluation and other Deep Learning architectures and practical ML (Lecture 6, 7, 11, 13 and 14).  
-  > Since ViTs are not in the lectures, I watched an explainer video on Vision Transformers (AGI Lambda, YouTube).  
-  > I then used Claude (Anthropic) to explore how to fine-tune a pretrained ViT-B/16 on the photos, adapting the base CNN and ResNet-50 notebooks.  
-  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
-  > Prompt used: "from the CNN and ResNet-50 notebooks, write a notebook that fine-tunes a pretrained ViT-B/16 on the photos, using the same data preparation and training pipeline. Use torchvision's ViT-B/16 pretrained on ImageNet-1k, and adapt the base CNN and ResNet-50 notebooks to this model."
-
-- [`consolidation.ipynb`](notebooks/consolidation.ipynb):
-  > Before this notebook I studied Ensemble Methods, Model Testing, Model Evaluation, k-NN & Data Preparation, Dimensionality Reduction, Linear Models and Decision Trees (Lecture 8, 6, 7, 3, 17, 10 and 5).  
-  > I then used Claude (Anthropic) to explore how to combine the ViT's and attribute models' probabilities (top-5 candidates, weighted score) and choose the partner and weight on validation without test leakage.  
-  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude.  
-  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
-  > Prompt used: "from the ViT and knn notebooks, write a notebook that combines the ViT's and attribute models' probabilities (top-5 candidates, weighted score) and chooses the partner and weight on validation without test leakage. Use sklearn's KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, LogisticRegression, LDA and cross_validate."
-
-- [`scripts/download_data.py`](scripts/download_data.py):
-  > Code generated with Claude (Anthropic) and reviewed by Tengku.  
-  > Prompt used, in full: "the data is too big to be put in the repo"
+**Where each use is declared**
+Each notebook and script states its own GenAI use, including the prompt(s) used, either at the top of the notebook (the "Generative AI Declaration" or "GenAI disclosure" block in the first markdown or code cell) or as comments on the specific cells it helped with. The member responsible for each file is named in its declaration.
