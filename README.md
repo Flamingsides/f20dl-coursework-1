@@ -159,18 +159,18 @@ train_loader, val_loader, test_loader = make_loaders("../data/processed", batch_
 
 ### Pipeline change log
 
-| Date       | Change                                                                                                                                                                                                                                                                             | By     |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C                                                                                                                                                                                                                                           | Ryan   |
-| 2026-10-22 | `scripts/download_data.py` (Kaggle download into `data/raw/`)                                                                                                                                                                                                                      | Tengku |
-| 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml`                                                                                                                                                                                     | Suhaib |
-| 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb`                                                                                                                                                                                               | David  |
-| 2026-11-05 | R2 analysis notebooks and `imagePrep.ipynb` added on top of `dataPrep`; dataset found in `data/raw/` or the repo root; image pipeline reads `data/cub_images.csv`                                                                                                                  | Faizal |
-| 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models                                                                                                                                                  | Ryan   |
-| 2026-11-11 | Image pipeline supports a 448 px input size                                                                                                                                                                                                                                        | David  |
-| 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables                                                                                     | Faizal |
+| Date | Change | By |
+| ---- | ------ | -- |
+| 2026-10-21 | `dataPrep.ipynb`, feature variants A/B/C | Ryan |
+| 2026-10-22 | `scripts/download_data.py` (Kaggle download into `data/raw/`) | Tengku |
+| 2026-11-04 | `dataPrep.ipynb` reads the dataset from `data/raw/`; `environment.yml`, `environment-3.12.yml` | Suhaib |
+| 2026-11-05 | Image pipeline: `prepare_images.py`, `augmentation.py`, `05_image_preparation.ipynb` | David |
+| 2026-11-05 | R2 analysis notebooks and `imagePrep.ipynb` added on top of `dataPrep`; dataset found in `data/raw/` or the repo root; image pipeline reads `data/cub_images.csv` | Faizal |
+| 2026-11-06 | Official split only: 80/20 notebooks and the `is_train_80` column removed; `prepare_images.py --short-side 512` for 448 px models | Ryan |
+| 2026-11-11 | Image pipeline supports a 448 px input size | David |
+| 2026-11-19 | One pinned `requirements.txt` (environment files removed); `randomForestOptimisation.ipynb` finds the dataset in `data/raw/`; leftover `is_train_80` references removed; README results tables | Faizal |
 | 2026-11-20 | `randomForest_encodingA.ipynb`: copy of `randomForest.ipynb` that keeps variant A unless another variant wins CV by more than A's fold standard deviation (C led by 0.13 points, so A is used, the same input as the other classical models); `randomForest.ipynb` still selects C | Ryan   |
-| 2026-11-24 | The variant A random forest is now `randomForest.ipynb` (replacing the variant C version); the random forest optimisation notebooks are no longer in the repo                                                                                                                      | Ryan   |
+| 2026-11-24 | The variant A random forest is now `randomForest.ipynb` (replacing the variant C version); the random forest optimisation notebooks are no longer in the repo | Ryan |
 
 ---
 
@@ -186,12 +186,12 @@ are no missing values. Training classes are balanced (29–30 photos per species
 **Annotator certainty** ([`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb)). Every encoding, including the
 "drop guessing positives" switch, was tested with three models (5-fold CV on the training set, macro-F1):
 
-| Option                    | Decision tree | Logistic regression | k-NN (k=10) |
-| ------------------------- | ------------- | ------------------- | ----------- |
-| **A, raw 0/1**            | **0.237**     | **0.473**           | **0.288**   |
-| A, guesses dropped        | 0.229         | 0.461               | 0.271       |
-| B, not visible = −1       | 0.233         | 0.432               | 0.139       |
-| C, + 28 not-visible flags | 0.227         | 0.466               | 0.271       |
+| Option | Decision tree | Logistic regression | k-NN (k=10) |
+| ------ | ------------- | ------------------- | ----------- |
+| **A, raw 0/1** | **0.237** | **0.473** | **0.288** |
+| A, guesses dropped | 0.229 | 0.461 | 0.271 |
+| B, not visible = −1 | 0.233 | 0.432 | 0.139 |
+| C, + 28 not-visible flags | 0.227 | 0.466 | 0.271 |
 
 Variant A is best or tied for every model, so it is the default input, with `DROP_GUESSING_POSITIVES = False`.
 
@@ -244,13 +244,13 @@ split before augmentation, and the test split is never augmented.
 **What is predicted:** the species (200 classes) from the 312 binary attributes. All results are on the official test
 set (5,794 photos), which was used once, after all choices were made with cross-validation on the training set.
 
-| Model                                          | Notebook                                                           | Input                         | Accuracy | Macro-F1       | Top-5          |
-| ---------------------------------------------- | ------------------------------------------------------------------ | ----------------------------- | -------- | -------------- | -------------- |
-| Decision tree (tuned)                          | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb)               | variant A                     | 24.7%    | 0.245          | 26.4%          |
-| k-NN (cosine, k = 21, distance-weighted)       | [`knn.ipynb`](notebooks/knn.ipynb)                                 | variant A                     | 34.7%    | 0.342          | 62.9%          |
-| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb)       | variant A, certainty-weighted | 44.2%    | 0.416          | 70.2%          |
-| Random forest (tuned, 750 trees)               | [`randomForest.ipynb`](notebooks/randomForest.ipynb)               | variant A                     | 45.2%    | 0.432          | 72.0%          |
-| Logistic regression (lbfgs, L2)                | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A                     | 47.4%    | _not reported_ | _not reported_ |
+| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
+| ----- | -------- | ----- | -------- | -------- | ----- |
+| Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
+| k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
+| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
+| Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
+| Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | 0.480 | _not reported_ |
 
 Every model sits between about 25% and 47%: the attributes are sparse, noisy and shared by look-alike species
 (see R2), so even the best attribute model gets about half the photos right.
@@ -262,16 +262,17 @@ models use the R2 image pipeline (checked, cropped to the bird, resized; augment
 their learning rate on a 20% validation split of the training photos, are retrained on all training photos, and are
 tested once on the official test set.
 
-| Model                             | Notebook                                                                 | Input                      | Accuracy  | Macro-F1       | Top-5          |
-| --------------------------------- | ------------------------------------------------------------------------ | -------------------------- | --------- | -------------- | -------------- |
-| MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb)   | 312 attributes             | 44.3%     | _not reported_ | _not reported_ |
-| Base CNN from scratch (4 blocks)  | [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb)                 | photo, 224 px              | 57.0%     | 0.570          | 83.4%          |
-| Base CNN from scratch (4 blocks)  | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb)                             | photo, 448 px              | 57.0%     | 0.569          | 82.3%          |
-| ResNet-50, ImageNet-pretrained    | [`resnet50.ipynb`](notebooks/resnet50.ipynb)                             | photo, 224 px              | 76.4%     | 0.764          | 93.5%          |
-| ResNet-50, ImageNet-pretrained    | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3%     | 0.801          | 94.2%          |
-| ResNet-50, ImageNet-pretrained    | [`resnet50.ipynb`](notebooks/resnet50.ipynb)                             | photo, 448 px              | 81.9%     | 0.818          | 95.0%          |
-| ViT-B/16, ImageNet-pretrained     | [`vit.ipynb`](notebooks/vit.ipynb)                                       | photo, 224 px              | 82.0%     | 0.820          | 96.2%          |
-| ViT-B/16, ImageNet-pretrained     | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb)                           | photo, 448 px              | **84.2%** | **0.841**      | 95.7%          |
+| Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
+| ----- | -------- | ----- | -------- | -------- | ----- |
+| MLP (512-384-256, early stopping) | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb) | 312 attributes | 44.3% | 0.471 | _not reported_ |
+| Base CNN from scratch (4 blocks) | [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb) | photo, 224 px | 57.0% | 0.570 | 83.4% |
+| Base CNN from scratch (4 blocks) | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | photo, 448 px | 57.0% | 0.569 | 82.3% |
+| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 224 px | 76.4% | 0.764 | 93.5% |
+| ResNet-50, ImageNet-pretrained | [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | photo, 224 px, R2 pipeline | 80.3% | 0.801 | 94.2% |
+| ResNet-50, ImageNet-pretrained | [`resnet50.ipynb`](notebooks/resnet50.ipynb) | photo, 448 px | 81.9% | 0.818 | 95.0% |
+| EfficientNet-B0, ImageNet-pretrained | [`efficientnetb0_fine_tuned.ipynb`](notebooks/efficientnetb0_fine_tuned.ipynb) | photo, 224 px | 73.6% | 0.735 | _not reported_ |
+| ViT-B/16, ImageNet-pretrained | [`vit.ipynb`](notebooks/vit.ipynb) | photo, 224 px | 82.0% | 0.820 | 96.2% |
+| ViT-B/16, ImageNet-pretrained | [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | photo, 448 px | **84.2%** | **0.841** | 95.7% |
 
 Photos beat attributes by a wide margin (84.2% vs 47.4%), and pretrained networks beat the network trained from scratch
 (57.0%) because about 30 training photos per species are too few to learn visual features from nothing.
@@ -280,7 +281,7 @@ Photos beat attributes by a wide margin (84.2% vs 47.4%), and pretrained network
 
 ## Use of generative AI
 
-This project used generative AI only as the coursework allows: **code generation with human evaluation** (Framework Statement 6) for the notebooks and scripts, and **editing and proofreading only** (Framework Statement 4) for the written report. The tool used was **Claude (Anthropic)**.
+This project used generative AI only as the coursework allows: **code generation with human evaluation** (Framework Statement 6) for the notebooks and scripts, and **editing and proofreading only** (Framework Statement 4) for the written report. The tool used was **Claude (Anthropic)** among ot.
 
 **How we used it**
 
@@ -290,4 +291,4 @@ This project used generative AI only as the coursework allows: **code generation
 - GenAI was not used to write the report's content. It was only used to correct grammar, spelling and wording in text we had written ourselves.
 
 **Where each use is declared**
-Each notebook and script states its own GenAI use, including the prompt(s) used, either at the top of the notebook (the "Generative AI Declaration" or "GenAI disclosure" block in the first markdown or code cell) or as comments on the specific cells it helped with. The member responsible for each file is named in its declaration.
+Each notebook and script states its own GenAI use, including the prompt(s) used or at least a description of the instruction given to the AI, either at the top of the notebook (the "Generative AI Declaration" or "GenAI disclosure" block in the first markdown or code cell) or as comments on the specific cells it helped with. The member responsible for each file is named in its declaration.
