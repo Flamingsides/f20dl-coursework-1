@@ -120,6 +120,7 @@ Start Jupyter (`jupyter lab`) and run the notebooks in this order with *Run All*
 | R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
 | R4 | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) | David, Ryan | cropped photos (steps 6–8) | `results/base_cnn/` | report |
 | R4 | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` (448 px run also saves its test probabilities) | report |
+| RQ3 | [`consolidation.ipynb`](notebooks/consolidation.ipynb) (224 px), [`vit_448px_consolidation.ipynb`](notebooks/vit_448px_consolidation.ipynb) (448 px, final) | Tengku, Ryan | ViT probabilities (`results/vit/*.npz`) + attribute features | `results/consolidation/` | report |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
 for the report. Steps 6–8 are only needed for the neural networks; the base CNN, ResNet-50 and ViT notebooks run them
@@ -245,8 +246,8 @@ set (5,794 photos), which was used once, after all choices were made with cross-
 | Model | Notebook | Input | Accuracy | Macro-F1 | Top-5 |
 |---|---|---|---|---|---|
 | Decision tree (tuned) | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb) | variant A | 24.7% | 0.245 | 26.4% |
-| k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 34.7% | 0.342 | 62.9% |
-| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.2% | 0.416 | 70.2% |
+| k-NN (cosine, k = 21, distance-weighted) | [`knn.ipynb`](notebooks/knn.ipynb) | variant A | 35.2% | 0.349 | 61.9% |
+| k-NN + LDA (64 components, certainty-weighted) | [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | variant A, certainty-weighted | 44.4% | 0.420 | 69.0% |
 | Random forest (tuned, 750 trees), variant A | [`randomForest_encodingA.ipynb`](notebooks/randomForest_encodingA.ipynb) | variant A | 45.2% | 0.432 | 72.0% |
 | Random forest (tuned, 750 trees) | [`randomForest.ipynb`](notebooks/randomForest.ipynb) | variant C | 45.6% | 0.435 | 72.1% |
 | Logistic regression (lbfgs, L2) | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | variant A | 47.4% | _not reported_ | _not reported_ |
