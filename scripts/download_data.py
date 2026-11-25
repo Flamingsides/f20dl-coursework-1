@@ -9,7 +9,7 @@ The data is NOT committed to Git (data/raw/ is in .gitignore); everyone runs thi
 script so the whole team uses an identical copy, as required by the CW Handbook (4.3.1).
 """
 # --- GenAI disclosure (F20DL coursework spec, Section 8) ---
-# Code generated with Claude (Anthropic) and reviewed by <YOUR NAME>.
+# Code generated with Claude (Anthropic) and reviewed by Tengku.
 # Prompt used, in full: "the data is too big to be put in the repo"
 
 import sys
