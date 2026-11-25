@@ -19,6 +19,14 @@ Usage (repo root, environment active, after running notebooks/imagePrep.ipynb):
     python scripts/prepare_images.py --short-side 512   # larger copy for 448 px models (resnet50.ipynb)
         -> data/processed/images_cropped_512/ and data/processed/cub_images_cropped_512.csv
 """
+# --- GenAI disclosure (F20DL coursework spec, Section 8) ---
+# Before this script I studied basic image processing and the findings of imagePrep.ipynb.
+# Based on those findings and my own decisions (10% margin, store at 256/512 px), the code was generated with Claude (Anthropic).
+# I ran it on all 11,788 photos, checked the output in 05_image_preparation.ipynb and edited it where needed (David).
+# Prompt used: "Write scripts/prepare_images.py that reads data/cub_images.csv, converts greyscale photos to RGB,
+# crops each photo to its bounding box plus a 10% margin, resizes the shorter side to 256 px (or a --short-side
+# option), and saves the photos and a cub_images_cropped.csv to data/processed/."
+
 import argparse
 from pathlib import Path
 

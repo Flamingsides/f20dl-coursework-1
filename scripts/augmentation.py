@@ -29,6 +29,16 @@ Bird-specific choices (justify these in the report):
 
 Needs (add to the dependency file): torch, torchvision (>= 0.16 for MixUp/CutMix).
 """
+# --- GenAI disclosure (F20DL coursework spec, Section 8) ---
+# Before this script I studied basic image processing, CNNs and model testing.
+# I then used Claude (Anthropic) to explore which augmentations are safe for bird species (see the docstring above).
+# Based on that, and with my own views and decisions, the code in this script was generated with Claude.
+# I tested it in 05_image_preparation.ipynb and edited the code where needed (David).
+# Prompt used: "Write scripts/augmentation.py for the cropped CUB-200-2011 photos using torchvision transforms v2:
+# a stratified 80/20 train/validation split made from the official training photos only, training-only on-the-fly
+# augmentation suitable for birds, deterministic resize and normalise for validation/test, PyTorch DataLoaders,
+# and a 224 or 448 px input size option."
+
 from pathlib import Path
 
 import pandas as pd
