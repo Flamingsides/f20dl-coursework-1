@@ -355,4 +355,4 @@ coursework spec asks. The statements, per notebook:
 
 - [`scripts/download_data.py`](scripts/download_data.py):
   > Code generated with Claude (Anthropic) and reviewed by Tengku.  
-  > Prompt used, in full: "suggest a way to put this data in the repo"
+  > Prompt used, in full: "the data is too big to be put in the repo"
