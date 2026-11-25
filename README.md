@@ -8,13 +8,13 @@
 
 ## Group members
 
-| Name                           | Role                          | Requirement work                                                                                                         |
-| ------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Suhaib Hameed Zuberi           | Team Lead                     | R3: logistic regression; R4: MLP                                                                                         |
-| Tengku Adam Syafiq             | Presentation and Pitch Lead   | R3: k-NN, k-NN improvements; R4: ViT-B/16 notebook; data download script                                                 |
-| Ryan Goh                       | Data Management Lead          | R2: tabular data preparation; R3: decision tree, random forest, random forest optimisation; R4: ResNet-50, training runs |
-| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks; repository and README                         |
-| David Ling                     | Final Report Lead             | R2: image pipeline for R4 (crop, resize, augmentation); R4: base CNN; meeting logs                                       |
+| Name | Role | Requirement work |
+|------|------|------------------|
+| Suhaib Hameed Zuberi | Team Lead | R3: logistic regression; R4: MLP; R4: EfficientNet-B0 fine-tuning |
+| Tengku Adam Syafiq | Presentation and Pitch Lead | R3: k-NN, k-NN improvements; R4: ViT-B/16 notebook; data download script |
+| Ryan Goh | Data Management Lead | R2: tabular data preparation; R3: decision tree, random forest, random forest optimisation; R4: ResNet-50, training runs |
+| Muhammad Faizal Haris bin Aidi | Configuration Management Lead | R2: EDA, annotator certainty, feature selection, clustering, image checks; repository and README |
+| David Ling | Final Report Lead | R2: image pipeline for R4 (crop, resize, augmentation); R4: base CNN; meeting logs |
 
 ## Project milestones
 
@@ -33,13 +33,13 @@
 
 ### Source and licence
 
-|                        |                                                                                                                                                                                         |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Dataset**            | Caltech-UCSD Birds-200-2011 (CUB-200-2011)                                                                                                                                              |
-| **True source**        | California Institute of Technology: [dataset page](https://www.vision.caltech.edu/datasets/cub_200_2011/), archive on [Caltech Data](https://data.caltech.edu/records/65de6-vp158)      |
-| **How we download it** | Kaggle mirror [`wenewone/cub2002011`](https://www.kaggle.com/datasets/wenewone/cub2002011), via `scripts/download_data.py`                                                              |
-| **Licence**            | Non-commercial research and educational use only. Caltech does not own the copyright of the photos (they come from Flickr).                                                             |
-| **Citation**           | Wah, C., Branson, S., Welinder, P., Perona, P. and Belongie, S. (2011) _The Caltech-UCSD Birds-200-2011 Dataset_. Technical Report CNS-TR-2011-001, California Institute of Technology. |
+| | |
+|-|-|
+| **Dataset** | Caltech-UCSD Birds-200-2011 (CUB-200-2011) |
+| **True source** | California Institute of Technology: [dataset page](https://www.vision.caltech.edu/datasets/cub_200_2011/), archive on [Caltech Data](https://data.caltech.edu/records/65de6-vp158) |
+| **How we download it** | Kaggle mirror [`wenewone/cub2002011`](https://www.kaggle.com/datasets/wenewone/cub2002011), via `scripts/download_data.py` |
+| **Licence** | Non-commercial research and educational use only. Caltech does not own the copyright of the photos (they come from Flickr). |
+| **Citation** | Wah, C., Branson, S., Welinder, P., Perona, P. and Belongie, S. (2011) _The Caltech-UCSD Birds-200-2011 Dataset_. Technical Report CNS-TR-2011-001, California Institute of Technology. |
 
 The Kaggle mirror is the official archive plus one extra file, `image_attribute_labels_clean.txt`, which repairs 606
 malformed lines of the original. `dataPrep.ipynb` verifies that this file is exactly the original with those lines fixed,
@@ -47,21 +47,21 @@ so nothing else differs from the true source.
 
 ### Two datasets from one source
 
-|        | Dataset 1: tabular (R2, R3)                                                                                                      | Dataset 2: images (R4)                          |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| Rows   | 11,788 photos                                                                                                                    | 11,788 photos                                   |
+| | Dataset 1: tabular (R2, R3) | Dataset 2: images (R4) |
+|-|-----------------------------|------------------------|
+| Rows | 11,788 photos | 11,788 photos |
 | Inputs | 312 binary visual attributes (bill shape, wing colour, ...) from 28 body-part groups, labelled by Amazon Mechanical Turk workers | the photograph + a bounding box around the bird |
-| Target | species (200 classes)                                                                                                            | species (200 classes)                           |
-| Split  | official `train_test_split.txt`: 5,994 train / 5,794 test                                                                        | same photos, same split                         |
+| Target | species (200 classes) | species (200 classes) |
+| Split | official `train_test_split.txt`: 5,994 train / 5,794 test | same photos, same split |
 
 ### Two examples
 
 ![A Cardinal and a Blue Jay with their bounding boxes and the attributes marked present](documentation/figures/eda_examples.png)
 
-| image_id | species  | split | attributes present (of 312) | some of its attributes                                                                                      |
-| -------- | -------- | ----- | --------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| 898      | Cardinal | train | 42                          | `has_bill_shape::cone`, `has_primary_color::red`, `has_head_pattern::crested`, `has_size::small_(5_-_9_in)` |
-| 4197     | Blue Jay | train | 37                          | `has_bill_shape::cone`, `has_primary_color::blue`, `has_crown_color::blue`, `has_wing_pattern::spotted`     |
+| image_id | species  | split | attributes present (of 312) | some of its attributes |
+| -------- | -------- | ----- | --------------------------- | ---------- |
+| 898 | Cardinal | train | 42 | `has_bill_shape::cone`, `has_primary_color::red`, `has_head_pattern::crested`, `has_size::small_(5_-_9_in)` |
+| 4197 | Blue Jay | train | 37 | `has_bill_shape::cone`, `has_primary_color::blue`, `has_crown_color::blue`, `has_wing_pattern::spotted` |
 
 ### Additional data collection
 
@@ -103,23 +103,24 @@ Either way you end up with `data/raw/CUB_200_2011/`. (A `CUB_200_2011/` folder a
 
 Start Jupyter (`jupyter lab`) and run the notebooks in this order with _Run All_:
 
-| #   | Notebook                                                                                                               | Owner        | Input                                      | Output                                                        | Needed by                     |
-| --- | ---------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------ | ------------------------------------------------------------- | ----------------------------- |
-| 1   | [`dataPrep.ipynb`](notebooks/dataPrep.ipynb)                                                                           | Ryan         | attribute files                            | `data/cub_features_A/B/C.csv`                                 | **all tabular models**        |
-| 2   | [`eda.ipynb`](notebooks/eda.ipynb)                                                                                     | Faizal       | `cub_features_A.csv`                       | figures only                                                  | report                        |
-| 3   | [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb)                                                       | Faizal       | `cub_features_A/B/C.csv`, certainty labels | figure + cleaning decision                                    | report                        |
-| 4   | [`featureSelection.ipynb`](notebooks/featureSelection.ipynb)                                                           | Faizal       | `cub_features_A.csv`                       | `data/feature_sets.json`                                      | R3 (optional feature subsets) |
-| 5   | [`clustering.ipynb`](notebooks/clustering.ipynb)                                                                       | Faizal       | `cub_features_A.csv`                       | figures only                                                  | report                        |
-| 6   | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb)                                                                         | Faizal       | photos, bounding boxes                     | `data/cub_images.csv`                                         | R4                            |
-| 7   | `python scripts/prepare_images.py`                                                                                     | David        | `cub_images.csv` + photos                  | `data/processed/images_cropped/`, `cub_images_cropped.csv`    | **R4 (CNN)**                  |
-| 8   | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb)                                                   | David        | cropped photos                             | checks + figures                                              | report                        |
-| R3  | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb)             | Ryan         | `cub_features_A/C.csv`                     | figures in the notebooks                                      | report                        |
-| R3  | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb)                       | Tengku       | `cub_features_A.csv`                       | `results/knn_*.csv`, `results/figures/`                       | report                        |
-| R3  | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb)                                                     | Suhaib       | `cub_features_A.csv`                       | printed scores                                                | report                        |
-| R4  | [`multilayer_perceptron.ipynb`](notebooks/multilayer_perceptron.ipynb)                                                 | Suhaib       | `cub_features_A.csv`                       | printed scores                                                | report                        |
-| R4  | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan         | cropped photos (steps 6–8)                 | `results/resnet50/`                                           | report                        |
-| R4  | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) (448 px), [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb)        | David, Ryan  | cropped photos (steps 6–8)                 | `results/base_cnn/`                                           | report                        |
-| R4  | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb)                            | Tengku, Ryan | cropped photos (steps 6–8)                 | `results/vit/` (448 px run also saves its test probabilities) | report                        |
+| # | Notebook | Owner | Input | Output | Needed by |
+| - | -------- | ----- | ----- | ------ | --------- |
+| 1 | [`dataPrep.ipynb`](notebooks/dataPrep.ipynb) | Ryan | attribute files | `data/cub_features_A/B/C.csv` | **all tabular models** |
+| 2 | [`eda.ipynb`](notebooks/eda.ipynb) | Faizal | `cub_features_A.csv` | figures only | report |
+| 3 | [`annotatorCertainty.ipynb`](notebooks/annotatorCertainty.ipynb) | Faizal | `cub_features_A/B/C.csv`, certainty labels | figure + cleaning decision | report |
+| 4 | [`featureSelection.ipynb`](notebooks/featureSelection.ipynb) | Faizal | `cub_features_A.csv` | `data/feature_sets.json` | R3 (optional feature subsets) |
+| 5 | [`clustering.ipynb`](notebooks/clustering.ipynb) | Faizal | `cub_features_A.csv` | figures only | report |
+| 6 | [`imagePrep.ipynb`](notebooks/imagePrep.ipynb) | Faizal | photos, bounding boxes | `data/cub_images.csv` | R4 |
+| 7 | `python scripts/prepare_images.py` | David | `cub_images.csv` + photos | `data/processed/images_cropped/`, `cub_images_cropped.csv`    | **R4 (CNN)** |
+| 8 | [`05_image_preparation.ipynb`](notebooks/05_image_preparation.ipynb) | David | cropped photos | checks + figures | report |
+| R3 | [`decisionTree.ipynb`](notebooks/decisionTree.ipynb), [`randomForest.ipynb`](notebooks/randomForest.ipynb) | Ryan | `cub_features_A/C.csv` | figures in the notebooks | report |
+| R3 | [`knn.ipynb`](notebooks/knn.ipynb), [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb) | Tengku | `cub_features_A.csv` | `results/knn_*.csv`, `results/figures/` | report |
+| R3 | [`logistic_regression.ipynb`](notebooks/logistic_regression.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
+| R4 | [`multilayer_perceptron_tabular.ipynb`](notebooks/multilayer_perceptron_tabular.ipynb) | Suhaib | `cub_features_A.csv` | printed scores | report |
+| R4 | [`resnet50.ipynb`](notebooks/resnet50.ipynb), [`resnet50_altered_224px.ipynb`](notebooks/resnet50_altered_224px.ipynb) | Ryan | cropped photos (steps 6–8) | `results/resnet50/` | report |
+| R4 | [`efficientnetb0_fine_tuned.ipynb`](notebooks/efficientnetb0_fine_tuned.ipynb) | Suhaib | cropped photos (steps 6–8) | `results/resnet50/` | report |
+| R4 | [`base_cnn.ipynb`](notebooks/base_cnn.ipynb) (448 px), [`base_cnn_224px.ipynb`](notebooks/base_cnn_224px.ipynb) | David, Ryan | cropped photos (steps 6–8) | `results/base_cnn/` | report |
+| R4 | [`vit.ipynb`](notebooks/vit.ipynb) (224 px), [`vit_448px.ipynb`](notebooks/vit_448px.ipynb) | Tengku, Ryan | cropped photos (steps 6–8) | `results/vit/` (448 px run also saves its test probabilities) | report |
 
 **If you only train a tabular model, you only need step 1.** Steps 2–5 explain the data and back up the cleaning choices
 for the report. Steps 6–8 are only needed for the neural networks; the base CNN, ResNet-50 and ViT notebooks run them
