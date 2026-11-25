@@ -316,3 +316,43 @@ coursework spec asks. The statements, per notebook:
   > Based on that, and with my own views and decisions, the code in this notebook was generated with Claude.  
   > I checked the code line by line with my own judgement.  
   > I ran every cell, checked the outputs against the data, and edited the code where needed (Faizal).
+
+### R3, R4 Tengku
+Each R3 and R4 notebooks have its full GenAI disclosure as comments at the top of their first code cell, as Section 8 of the
+coursework spec asks. The statements, per notebook:
+
+Each notebook has its full GenAI disclosure as comments at the top of its first code cell, as Section 8 of the
+coursework spec asks. The statements, per notebook:
+
+- [`knn.ipynb`](notebooks/knn.ipynb):
+  > Before this notebook I studied k-NN, model testing and model evaluation (Lecture 3, 6, 7 and k-NN lab).  
+  > I then used Claude (Anthropic) to explore which distances and weightings suit sparse 0/1 attributes, and how to tune k fairly with cross-validation.  
+  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude; the findings notes are my own.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
+  > Prompt used: "based on the CUB-200-2011 tabular attributes prepared in dataPrep.ipynb, write a notebook that compares k-NN with different distances and weightings, and tunes k fairly with cross-validation. Use sklearn's KNeighborsClassifier and GridSearchCV."
+
+- [`knn_improvements.ipynb`](notebooks/knn_improvements.ipynb):
+  > Before this notebook I studied k-NN, model testing and model evaluation (Lecture 3, 6, 7 and k-NN lab).  
+  > I then used Claude (Anthropic) to explore how to compare feature selection (filter, wrapper) and feature extraction (PCA, LDA) on the same folds, and how to test the differences.  
+  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude; the findings notes are my own.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
+  > Prompt used: "from knn.ipynb, write a notebook that compares feature selection (filter, wrapper) and feature extraction (PCA, LDA) on the same folds, and tests the differences. Use sklearn's KNeighborsClassifier and cross_validate."
+
+- [`vit.ipynb`](notebooks/vit.ipynb):
+  > Before this notebook I studied Neural Networks, Convolutional Neural Networks, Model Testing, Model Evaluation and other Deep Learning architectures and practical ML (Lecture 6, 7, 11, 13 and 14).  
+  > Since ViTs are not in the lectures, I watched an explainer video on Vision Transformers (AGI Lambda, YouTube).  
+  > I then used Claude (Anthropic) to explore how to fine-tune a pretrained ViT-B/16 on the photos, adapting the base CNN and ResNet-50 notebooks.  
+  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
+  > Prompt used: "from the CNN and ResNet-50 notebooks, write a notebook that fine-tunes a pretrained ViT-B/16 on the photos, using the same data preparation and training pipeline. Use torchvision's ViT-B/16 pretrained on ImageNet-1k, and adapt the base CNN and ResNet-50 notebooks to this model."
+
+- [`consolidation.ipynb`](notebooks/consolidation.ipynb):
+  > Before this notebook I studied Ensemble Methods, Model Testing, Model Evaluation, k-NN & Data Preparation, Dimensionality Reduction, Linear Models and Decision Trees (Lecture 8, 6, 7, 3, 17, 10 and 5).  
+  > I then used Claude (Anthropic) to explore how to combine the ViT's and attribute models' probabilities (top-5 candidates, weighted score) and choose the partner and weight on validation without test leakage.  
+  > Based on that, and with my own views and decisions, the code and the explanatory markdown in this notebook were generated with Claude.  
+  > I ran every cell, checked the outputs against the data, and edited the code where needed (Tengku).  
+  > Prompt used: "from the ViT and knn notebooks, write a notebook that combines the ViT's and attribute models' probabilities (top-5 candidates, weighted score) and chooses the partner and weight on validation without test leakage. Use sklearn's KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, LogisticRegression, LDA and cross_validate."
+
+- [`scripts/download_data.py`](scripts/download_data.py):
+  > Code generated with Claude (Anthropic) and reviewed by Tengku.  
+  > Prompt used, in full: "suggest a way to put this data in the repo"
