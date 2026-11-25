@@ -142,6 +142,7 @@ This project used generative AI only as the coursework allows: **code generation
 - We then used Claude to explore options for that approach, and to generate or adapt code for it, often starting from a teammate's notebook so that every model shares the same data pipeline and protocol.
 - Every member ran their code end to end, checked the outputs against the data, and edited the code where it was wrong or did not match our decisions. All design decisions, the interpretation of results and the conclusions are our own.
 - GenAI was not used to write the report's content. It was only used to correct grammar, spelling and wording in text we had written ourselves.
+- GenAI was also used to explore ideas, techniques, and help with debugging.
 
 **Where each use is declared**
 Each notebook and script states its own GenAI use, including the prompt(s) used or at least a description of the instruction given to the AI, either at the top of the notebook (the "Generative AI Declaration" or "GenAI disclosure" block in the first markdown or code cell) or as comments on the specific cells it helped with. The member responsible for each file is named in its declaration.
